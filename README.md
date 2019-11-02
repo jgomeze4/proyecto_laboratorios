@@ -1,9 +1,9 @@
 # proyecto_laboratorios
 
-LabX
+Sistema de Gestión Operacional de Insumos para Laboratorios Clínicos (LABx) 
 
 Integrantes:
-  Fabian Callejas
-  Julian Galeano
-  Julian Gomez
-  Jose Jimenez
+  1. Fabian Callejas
+  2. Julian Galeano
+  3. Julian Gomez
+  4. Jose Jimenez
