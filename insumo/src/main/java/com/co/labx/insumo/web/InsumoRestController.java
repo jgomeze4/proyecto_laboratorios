@@ -13,7 +13,7 @@ public class InsumoRestController {
 	@GetMapping
 	public String obtener() {
 	
-		return "Hola";
+		return "Hola Mundo";
 	}
 	
 }
