@@ -26,11 +26,6 @@ public class InventarioRestController {
 		return pruebaService.obtener();
 	}
 	
-	@GetMapping("/test")
-	public String prueba() {
-		return "Prueba";
-	}
-	
 	@PostMapping
 	public void guardar(@RequestBody Prueba prueba) {
 	
