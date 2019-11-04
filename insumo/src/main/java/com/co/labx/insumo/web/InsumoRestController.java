@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.co.labx.insumo.dto.ProductoDTO;
 import com.co.labx.insumo.model.Producto;
 import com.co.labx.insumo.service.IProductoService;
 
@@ -33,12 +34,12 @@ public class InsumoRestController {
 	}
 	
 	@PostMapping("/crear")
-	public ResponseEntity<Producto> crear(@RequestBody Producto producto) {
+	public ResponseEntity<Producto> crear(@RequestBody ProductoDTO productoDTO) {
 		try {
-			if(producto.getIdProducto() != null) {
+			if(productoDTO.getIdFamilia() != null) {
 				new Exception("El producto no puede tener id");
 			}
-			Producto productoResponse = productoService.guardarProducto(producto);
+			Producto productoResponse = productoService.guardarProducto(productoDTO);
 			return ResponseEntity.status(HttpStatus.OK).body(productoResponse);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -46,12 +47,12 @@ public class InsumoRestController {
 	}
 	
 	@PutMapping("/actualizar")
-	public ResponseEntity<Producto> actualizar(@RequestBody Producto producto) {
+	public ResponseEntity<Producto> actualizar(@RequestBody ProductoDTO productoDTO) {
 		try {
-			if(producto.getIdProducto() == null) {
+			if(productoDTO.getIdFamilia() == null) {
 				new Exception("El producto no tiene id");
 			}
-			Producto productoResponse = productoService.guardarProducto(producto);
+			Producto productoResponse = productoService.guardarProducto(productoDTO);
 			return ResponseEntity.status(HttpStatus.CREATED).body(productoResponse);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
