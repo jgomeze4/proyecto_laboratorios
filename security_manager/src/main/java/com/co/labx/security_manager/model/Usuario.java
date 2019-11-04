@@ -2,6 +2,7 @@ package com.co.labx.security_manager.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 
 /**
@@ -16,10 +17,10 @@ public class Usuario implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID_USUARIO")
-	private int idUsuario;
+	private Long idUsuario;
 
 	@Column(name="Activo")
-	private boolean activo;
+	private String activo;
 
 	@Column(name="Cliente")
 	private String cliente;
@@ -30,8 +31,11 @@ public class Usuario implements Serializable {
 	@Column(name="Email")
 	private String email;
 
-	@Column(name="ID_ROL")
-	private int idRol;
+	@Column(name="Fecha_Geneacion_Token")
+	private Timestamp fecha_Geneacion_Token;
+
+	@Column(name="Fecha_Uso_Token")
+	private Timestamp fecha_Uso_Token;
 
 	@Column(name="Nombre")
 	private String nombre;
@@ -42,19 +46,19 @@ public class Usuario implements Serializable {
 	public Usuario() {
 	}
 
-	public int getIdUsuario() {
+	public Long getIdUsuario() {
 		return this.idUsuario;
 	}
 
-	public void setIdUsuario(int idUsuario) {
+	public void setIdUsuario(Long idUsuario) {
 		this.idUsuario = idUsuario;
 	}
 
-	public boolean getActivo() {
+	public String getActivo() {
 		return this.activo;
 	}
 
-	public void setActivo(boolean activo) {
+	public void setActivo(String activo) {
 		this.activo = activo;
 	}
 
@@ -82,12 +86,20 @@ public class Usuario implements Serializable {
 		this.email = email;
 	}
 
-	public int getIdRol() {
-		return this.idRol;
+	public Timestamp getFecha_Geneacion_Token() {
+		return this.fecha_Geneacion_Token;
 	}
 
-	public void setIdRol(int idRol) {
-		this.idRol = idRol;
+	public void setFecha_Geneacion_Token(Timestamp fecha_Geneacion_Token) {
+		this.fecha_Geneacion_Token = fecha_Geneacion_Token;
+	}
+
+	public Timestamp getFecha_Uso_Token() {
+		return this.fecha_Uso_Token;
+	}
+
+	public void setFecha_Uso_Token(Timestamp fecha_Uso_Token) {
+		this.fecha_Uso_Token = fecha_Uso_Token;
 	}
 
 	public String getNombre() {
