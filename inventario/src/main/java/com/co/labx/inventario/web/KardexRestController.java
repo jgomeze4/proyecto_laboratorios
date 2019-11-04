@@ -26,7 +26,7 @@ public class KardexRestController {
 	public ResponseEntity<List<Kardex>> obtener() {
 		try {
 			List<Kardex> kardex =kardexService.listar();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(kardex);
+			return ResponseEntity.status(HttpStatus.OK).body(kardex);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
@@ -36,7 +36,7 @@ public class KardexRestController {
 	public ResponseEntity<Kardex> ingresar(@RequestBody KardexDTO kardexDTO) {
 		try {
 			Kardex kardex = kardexService.ingresar(kardexDTO);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(kardex);
+			return ResponseEntity.status(HttpStatus.OK).body(kardex);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
