@@ -13,4 +13,7 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
 	@Query(nativeQuery = true, value="SELECT * FROM usuarios WHERE Email = :email and Contrasena = :contrasena")
 	Usuario validarUsuarioContrasena(@Param("email") String email, @Param("contrasena") String contrasena);
 	
+	@Query(nativeQuery = true, value="SELECT * FROM usuarios WHERE email = :email and token = :token having TIMESTAMPDIFF(MINUTE, fecha_uso_token, now()) <= 30")
+	Usuario validarToken(@Param("email") String email, @Param("token") String token);
+	
 }

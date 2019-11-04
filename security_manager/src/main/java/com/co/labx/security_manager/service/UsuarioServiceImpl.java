@@ -1,14 +1,13 @@
 package com.co.labx.security_manager.service;
 
-import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.co.labx.security_manager.dto.UsuarioAuthDTO;
 import com.co.labx.security_manager.dto.UsuarioDTO;
 import com.co.labx.security_manager.model.Usuario;
 import com.co.labx.security_manager.repository.IUsuarioRepository;
@@ -31,6 +30,20 @@ public class UsuarioServiceImpl implements IUsuarioService{
 			usuario.setToken(token);
 			usuario.setFecha_Geneacion_Token(new java.sql.Date((Calendar.getInstance().getTime()).getTime()));
 			usuario.setFecha_Uso_Token(usuario.getFecha_Geneacion_Token());
+			//Update de usuario, con token y la fecha de geneación
+			usuarioRepository.save(usuario);
+		}
+		return token;
+	}
+
+	@Override
+	@Transactional
+	public String validarToken(UsuarioAuthDTO usuarioAuthDTO) {
+		Usuario usuario = usuarioRepository.validarToken(usuarioAuthDTO.getEmail(), usuarioAuthDTO.getToken());
+		String token = null;
+		if(usuario != null) {
+			token = usuario.getToken();
+			usuario.setFecha_Uso_Token(new java.sql.Date((Calendar.getInstance().getTime()).getTime()));
 			//Update de usuario, con token y la fecha de geneación
 			usuarioRepository.save(usuario);
 		}

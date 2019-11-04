@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.co.labx.security_manager.dto.ResponseDTO;
 import com.co.labx.security_manager.dto.UsuarioAuthDTO;
 import com.co.labx.security_manager.dto.UsuarioDTO;
-import com.co.labx.security_manager.model.Usuario;
 import com.co.labx.security_manager.service.IUsuarioService;
 
 @RestController
@@ -36,7 +35,6 @@ public class SecurityManagerRestController {
 				return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
 			}
 		} catch (Exception e) {
-			System.out.print(e.getMessage());
 			responseDTO.setSuccess(false);
 			responseDTO.setMessage("Ocurrió un error, por favor intenté más tarde");
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseDTO);
@@ -44,8 +42,23 @@ public class SecurityManagerRestController {
 	}
 	
 	@PostMapping("/validar")
-	public String generateToken(@RequestBody UsuarioAuthDTO usuarioAuthDTO) {
-		
-		return "";
+	public ResponseEntity<ResponseDTO> generateToken(@RequestBody UsuarioAuthDTO usuarioAuthDTO) {
+		ResponseDTO responseDTO = new ResponseDTO();
+		try {
+			String token = usuarioService.validarToken(usuarioAuthDTO);
+			if(token == null) {
+				responseDTO.setSuccess(false);
+				responseDTO.setMessage("No hay sesión activa");
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseDTO);
+			} else {
+				responseDTO.setSuccess(true);
+				responseDTO.setToken(token);
+				return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
+			}
+		} catch (Exception e) {
+			responseDTO.setSuccess(false);
+			responseDTO.setMessage("Ocurrió un error, por favor intenté más tarde");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseDTO);
+		}
 	}
 }
