@@ -2,7 +2,22 @@ package com.co.labx.security_manager.dto;
 
 public class UsuarioDTO {
 
-	public String usuario;
-	public String clave;
+	private String email;
+	private String contrasena;
+	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	public String getContrasena() {
+		return contrasena;
+	}
+	
+	public void setContrasena(String contrasena) {
+		this.contrasena = contrasena;
+	}
 	
 }
