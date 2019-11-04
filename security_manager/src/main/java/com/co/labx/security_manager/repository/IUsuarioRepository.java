@@ -10,7 +10,7 @@ import com.co.labx.security_manager.model.Usuario;
 @Repository
 public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
 
-	@Query(nativeQuery = true, value="SELECT u.* FROM usuarios u WHERE u.email = :email and u.contrasena = :contrasena")
+	@Query(nativeQuery = true, value="SELECT * FROM usuarios WHERE Email = :email and Contrasena = :contrasena")
 	Usuario validarUsuarioContrasena(@Param("email") String email, @Param("contrasena") String contrasena);
 	
 }

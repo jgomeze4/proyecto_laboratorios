@@ -2,7 +2,8 @@ package com.co.labx.security_manager.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.sql.Timestamp;
+
+import java.util.Date;
 
 
 /**
@@ -10,8 +11,9 @@ import java.sql.Timestamp;
  * 
  */
 @Entity
-@Table(name="Usuarios")
+@Table(name="usuarios")
 public class Usuario implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -31,11 +33,13 @@ public class Usuario implements Serializable {
 	@Column(name="Email")
 	private String email;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="Fecha_Geneacion_Token")
-	private Timestamp fecha_Geneacion_Token;
+	private Date fecha_Geneacion_Token;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="Fecha_Uso_Token")
-	private Timestamp fecha_Uso_Token;
+	private Date fecha_Uso_Token;
 
 	@Column(name="Nombre")
 	private String nombre;
@@ -86,19 +90,19 @@ public class Usuario implements Serializable {
 		this.email = email;
 	}
 
-	public Timestamp getFecha_Geneacion_Token() {
+	public Date getFecha_Geneacion_Token() {
 		return this.fecha_Geneacion_Token;
 	}
 
-	public void setFecha_Geneacion_Token(Timestamp fecha_Geneacion_Token) {
+	public void setFecha_Geneacion_Token(Date fecha_Geneacion_Token) {
 		this.fecha_Geneacion_Token = fecha_Geneacion_Token;
 	}
 
-	public Timestamp getFecha_Uso_Token() {
+	public Date getFecha_Uso_Token() {
 		return this.fecha_Uso_Token;
 	}
 
-	public void setFecha_Uso_Token(Timestamp fecha_Uso_Token) {
+	public void setFecha_Uso_Token(Date fecha_Uso_Token) {
 		this.fecha_Uso_Token = fecha_Uso_Token;
 	}
 

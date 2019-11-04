@@ -36,6 +36,7 @@ public class SecurityManagerRestController {
 				return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
 			}
 		} catch (Exception e) {
+			System.out.print(e.getMessage());
 			responseDTO.setSuccess(false);
 			responseDTO.setMessage("Ocurrió un error, por favor intenté más tarde");
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseDTO);
