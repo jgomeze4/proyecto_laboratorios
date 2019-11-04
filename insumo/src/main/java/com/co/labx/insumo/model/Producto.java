@@ -1,128 +1,79 @@
 package com.co.labx.insumo.model;
 
 import java.io.Serializable;
+import javax.persistence.*;
+import java.math.BigInteger;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-
+/**
+ * The persistent class for the productos database table.
+ * 
+ */
 @Entity
 @Table(name="productos")
+@NamedQuery(name="Producto.findAll", query="SELECT p FROM Producto p")
 public class Producto implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3077705420982538970L;
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ID_PRODUCTO", unique=true, nullable=false)
-	private String idProducto;
+	@Column(name="id_producto")
+	private Long idProducto;
 
-	@Column(name="C_R1", nullable=false)
-	private short cR1;
+	private String activo;
 
-	@Column(name="C_R2", nullable=false)
-	private short cR2;
+	@Column(name="clasificacion_riesgo")
+	private String clasificacionRiesgo;
 
-	@Column(name="C_R3", nullable=false)
-	private short cR3;
-
-	@Lob
-	@Column(name="CLASIFICACION", nullable=false)
-	private String clasificacion;
-
-	@Column(name="CODIGO", nullable=false, length=20)
 	private String codigo;
 
-	@Column(name="ESTADO", nullable=false)
-	private byte estado;
+	@Column(name="id_usuario")
+	private BigInteger idUsuario;
 
-	@Lob
-	@Column(name="FAMILIA", nullable=false)
-	private String familia;
-
-	@Lob
-	@Column(name="HISTORIAL", nullable=false)
-	private String historial;
-
-	@Lob
-	@Column(name="INVIMA", nullable=false)
-	private String invima;
-
-	@Lob
-	@Column(name="MARCA", nullable=false)
 	private String marca;
 
-	@Lob
-	@Column(name="NOMBRE", nullable=false)
 	private String nombre;
 
-	@Column(name="NUM_REACTIVOS", nullable=false)
-	private byte numReactivos;
-
-	@Lob
-	@Column(name="PRESENTACION", nullable=false)
 	private String presentacion;
 
-	@Lob
-	@Column(name="PROVEEDOR", nullable=false)
 	private String proveedor;
 
-	@Column(name="TEMPERATURA_ALMA", nullable=false, length=20)
-	private String temperaturaAlma;
+	@Column(name="reg_invima")
+	private String regInvima;
 
-	@Lob
-	@Column(name="USUARIO_CREACION", nullable=false)
-	private String usuarioCreacion;
+	@Column(name="temp_almacenamiento")
+	private String tempAlmacenamiento;
+
+	//bi-directional many-to-one association to Familia
+	@ManyToOne
+	@JoinColumn(name="id_familia")
+	private Familia familia;
 
 	public Producto() {
 	}
 
-	public String getIdProducto() {
+	public Long getIdProducto() {
 		return this.idProducto;
 	}
 
-	public void setIdProducto(String idProducto) {
+	public void setIdProducto(Long idProducto) {
 		this.idProducto = idProducto;
 	}
 
-	public short getCR1() {
-		return this.cR1;
+	public String getActivo() {
+		return this.activo;
 	}
 
-	public void setCR1(short cR1) {
-		this.cR1 = cR1;
+	public void setActivo(String activo) {
+		this.activo = activo;
 	}
 
-	public short getCR2() {
-		return this.cR2;
+	public String getClasificacionRiesgo() {
+		return this.clasificacionRiesgo;
 	}
 
-	public void setCR2(short cR2) {
-		this.cR2 = cR2;
-	}
-
-	public short getCR3() {
-		return this.cR3;
-	}
-
-	public void setCR3(short cR3) {
-		this.cR3 = cR3;
-	}
-
-	public String getClasificacion() {
-		return this.clasificacion;
-	}
-
-	public void setClasificacion(String clasificacion) {
-		this.clasificacion = clasificacion;
+	public void setClasificacionRiesgo(String clasificacionRiesgo) {
+		this.clasificacionRiesgo = clasificacionRiesgo;
 	}
 
 	public String getCodigo() {
@@ -133,36 +84,12 @@ public class Producto implements Serializable {
 		this.codigo = codigo;
 	}
 
-	public byte getEstado() {
-		return this.estado;
+	public BigInteger getIdUsuario() {
+		return this.idUsuario;
 	}
 
-	public void setEstado(byte estado) {
-		this.estado = estado;
-	}
-
-	public String getFamilia() {
-		return this.familia;
-	}
-
-	public void setFamilia(String familia) {
-		this.familia = familia;
-	}
-
-	public String getHistorial() {
-		return this.historial;
-	}
-
-	public void setHistorial(String historial) {
-		this.historial = historial;
-	}
-
-	public String getInvima() {
-		return this.invima;
-	}
-
-	public void setInvima(String invima) {
-		this.invima = invima;
+	public void setIdUsuario(BigInteger idUsuario) {
+		this.idUsuario = idUsuario;
 	}
 
 	public String getMarca() {
@@ -181,14 +108,6 @@ public class Producto implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public byte getNumReactivos() {
-		return this.numReactivos;
-	}
-
-	public void setNumReactivos(byte numReactivos) {
-		this.numReactivos = numReactivos;
-	}
-
 	public String getPresentacion() {
 		return this.presentacion;
 	}
@@ -205,20 +124,28 @@ public class Producto implements Serializable {
 		this.proveedor = proveedor;
 	}
 
-	public String getTemperaturaAlma() {
-		return this.temperaturaAlma;
+	public String getRegInvima() {
+		return this.regInvima;
 	}
 
-	public void setTemperaturaAlma(String temperaturaAlma) {
-		this.temperaturaAlma = temperaturaAlma;
+	public void setRegInvima(String regInvima) {
+		this.regInvima = regInvima;
 	}
 
-	public String getUsuarioCreacion() {
-		return this.usuarioCreacion;
+	public String getTempAlmacenamiento() {
+		return this.tempAlmacenamiento;
 	}
 
-	public void setUsuarioCreacion(String usuarioCreacion) {
-		this.usuarioCreacion = usuarioCreacion;
+	public void setTempAlmacenamiento(String tempAlmacenamiento) {
+		this.tempAlmacenamiento = tempAlmacenamiento;
+	}
+
+	public Familia getFamilia() {
+		return this.familia;
+	}
+
+	public void setFamilia(Familia familia) {
+		this.familia = familia;
 	}
 
 }
