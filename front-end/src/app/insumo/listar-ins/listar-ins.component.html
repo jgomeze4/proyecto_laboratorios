@@ -1,0 +1,64 @@
+<mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+</mat-form-field>
+<div style="overflow: auto;">
+    <div class="mat-elevation-z8">
+        <mat-table [dataSource]="listData" matSort>
+            <mat-header-row *matHeaderRowDef ="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns:displayedColumns;"></mat-row>
+            <ng-container matColumnDef="Options">
+                <mat-header-cell *matHeaderCellDef>Opciones</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <button mat-icon-button (click)="onEdit(row)">
+                        <mat-icon>launch</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="idProducto">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+                <mat-header-cell *matCellDef="let element">{{element.idProducto}}</mat-header-cell>
+            </ng-container>
+            <ng-container matColumnDef="nombre">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.nombre}}</mat-header-cell>
+            </ng-container>
+            <ng-container matColumnDef="marca">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Marca</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.marca}}</mat-header-cell>
+            </ng-container>
+            <ng-container matColumnDef="proveedor">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Proveedor</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.proveedor}}</mat-header-cell>
+            </ng-container>
+            <ng-container matColumnDef="codigo">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Codigo</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.codigo}}</mat-header-cell>
+            </ng-container>
+            <ng-container matColumnDef="presentacion">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Presentacion</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.presentacion}}</mat-header-cell>
+            </ng-container>
+            <ng-container matColumnDef="regInvima">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>INVIMA</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.regInvima}}</mat-header-cell>
+            </ng-container>
+            <ng-container matColumnDef="clasificacionRiesgo">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Riesgo</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.clasificacionRiesgo}}</mat-header-cell>
+            </ng-container>
+            <ng-container matColumnDef="tempAlmacenamiento">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Almacenamiento</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.tempAlmacenamiento}}</mat-header-cell>
+            </ng-container>
+            <ng-container matColumnDef="activo">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Activo</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.activo}}</mat-header-cell>
+            </ng-container>
+            <ng-container matColumnDef="familia.nombre">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Familia</mat-header-cell>
+                        <mat-header-cell *matCellDef="let element">{{element.familia.nombre}}</mat-header-cell>
+                </ng-container>
+        </mat-table>
+    </div>
+</div>
+<button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Añadir</button>

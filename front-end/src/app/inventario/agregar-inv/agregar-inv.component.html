@@ -1,0 +1,15 @@
+<div class="d-flex justify-content-between">
+        <h3>Añadir a Inventario</h3>
+</div>
+    <div style="overflow: auto;">
+        <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+            <div class="mt-4 input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">PRODUCTO</span>
+                </div>
+                <input required type="number" class="form-control" name="idProducto" #idProducto ="ngModel" [(ngModel)]="service.formData.idProducto">    
+            </div>
+            <div class="text-danger text-left" *ngIf="idProducto.invalid && idProducto.touched">Por favor ingresar el Producto</div>
+            <button class="mt-4" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">AÑADIR</button>
+        </form>
+    </div>

@@ -1,0 +1,74 @@
+<div class="d-flex justify-content-between">
+    <h3>Añadir Insumo</h3>
+    <button mat-button (click)="onClose()">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<div style="overflow: auto;height: 450px;">
+    <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+        <div class="mt-4 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">NOMBRE</span>
+            </div>
+            <input required type="text" class="form-control" name="nombre" #nombre ="ngModel" [(ngModel)]="service.formData.nombre">    
+        </div>
+        <div class="text-danger text-left" *ngIf="nombre.invalid && nombre.touched">Por favor ingresar nombre</div>
+        <div class="mt-4 input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">MARCA</span>
+                </div>
+                <input required type="text" class="form-control" name="marca" #marca ="ngModel" [(ngModel)]="service.formData.marca">    
+        </div>
+        <div class="text-danger text-left" *ngIf="marca.invalid && marca.touched">Por favor ingresar marca</div>
+        <div class="mt-4 input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">PROVEEDOR</span>
+                </div>
+                <input required type="text" class="form-control" name="proveedor" #proveedor ="ngModel" [(ngModel)]="service.formData.proveedor">    
+        </div>
+        <div class="text-danger text-left" *ngIf="proveedor.invalid && proveedor.touched">Por favor ingresar proveedor</div>
+        <div class="mt-4 input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">CODIGO</span>
+                </div>
+                <input required type="text" class="form-control" name="codigo" #codigo ="ngModel" [(ngModel)]="service.formData.codigo">    
+        </div>
+        <div class="text-danger text-left" *ngIf="codigo.invalid && codigo.touched">Por favor ingresar codigo</div>        
+        <div class="mt-4 input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">PRESENTACION</span>
+                </div>
+                <input required type="text" class="form-control" name="presentacion" #presentacion ="ngModel" [(ngModel)]="service.formData.presentacion">    
+        </div>
+        <div class="text-danger text-left" *ngIf="presentacion.invalid && presentacion.touched">Por favor ingresar presentacion</div>        
+        <div class="mt-4 input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">INVIMA</span>
+                </div>
+                <input required type="text" class="form-control" name="regInvima" #regInvima ="ngModel" [(ngModel)]="service.formData.regInvima">    
+        </div>
+        <div class="text-danger text-left" *ngIf="regInvima.invalid && regInvima.touched">Por favor ingresar Registro INVMIMA</div>        
+        <div class="mt-4 input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">RIESGO</span>
+                </div>
+                <input required type="text" class="form-control" name="clasificacionRiesgo" #clasificacionRiesgo ="ngModel" [(ngModel)]="service.formData.clasificacionRiesgo">    
+        </div>        
+        <div class="text-danger text-left" *ngIf="clasificacionRiesgo.invalid && clasificacionRiesgo.touched">Por favor ingresar riesgo</div>
+        <div class="mt-4 input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">TEMPERATURA</span>
+                </div>
+                <input required type="text" class="form-control" name="tempAlmacenamiento" #tempAlmacenamiento ="ngModel" [(ngModel)]="service.formData.tempAlmacenamiento">    
+        </div>
+        <div class="text-danger text-left" *ngIf="tempAlmacenamiento.invalid && tempAlmacenamiento.touched">Por favor ingresar temperatura</div>        
+        <div class="mt-4 input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">FAMILIA</span>
+                </div>
+                <input required type="text" class="form-control" name="idFamilia" #idFamilia ="ngModel" [(ngModel)]="service.formData.idFamilia">    
+        </div>
+        <div class="text-danger text-left" *ngIf="idFamilia.invalid && idFamilia.touched">Por favor ingresar Familia</div>        
+        <button class="mt-4" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">AÑADIR</button>
+    </form>
+</div>

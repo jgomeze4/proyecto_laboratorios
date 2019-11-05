@@ -1,0 +1,17 @@
+<div class="container">
+    <h3 class="d-flex justify-content-center">LABX</h3>
+    <h5 class="d-flex justify-content-center">Software para Inventarios de laboratorio</h5>
+    <nav class="navbar navbar-expand-sm big-light navbar-dark">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <button class="m-1 btn btn-light btn-outline-primary " Buttonlabel ="InsScreen" (click)="InsScreen=true; InvScreen=false;">Insumos</button>
+            </li>
+            <li class="nav-item">
+                <button class="m-1 btn btn-light btn-outline-primary" Buttonlabel ="InvScreen" (click)="InsScreen=false; InvScreen=true;">Añadir a Inventario</button>
+            </li>
+        </ul>
+    </nav>
+    <app-insumo *ngIf="InsScreen"></app-insumo>
+    <app-inventario *ngIf="InvScreen"></app-inventario>
+</div> 
+<router-outlet></router-outlet>
