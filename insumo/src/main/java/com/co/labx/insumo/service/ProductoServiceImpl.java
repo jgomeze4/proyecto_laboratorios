@@ -1,13 +1,19 @@
 package com.co.labx.insumo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.co.labx.insumo.constants.ProductoConstants;
+import com.co.labx.insumo.dto.FamiliaResponseDTO;
 import com.co.labx.insumo.dto.ProductoDTO;
+import com.co.labx.insumo.dto.ProductoResponseDTO;
+import com.co.labx.insumo.helper.ProductoHelper;
 import com.co.labx.insumo.model.Familia;
 import com.co.labx.insumo.model.Producto;
 import com.co.labx.insumo.repository.IProductoRepository;
@@ -22,19 +28,25 @@ public class ProductoServiceImpl implements IProductoService {
 	private IFamiliaService familiaService;
 
 	@Override
-	public List<Producto> obtenerProductos() {
-		return productoRepository.findAll();
+	public List<ProductoResponseDTO> obtenerProductos() {
+		List<ProductoResponseDTO> productoResponseDTOs = new ArrayList<ProductoResponseDTO>();
+		List<Producto> productos = productoRepository.findAll();
+		productos.stream().forEach(x -> {
+			productoResponseDTOs.add(ProductoHelper.productoAProductoResponseDTO(x));
+		});
+		
+		return productoResponseDTOs;
 	}
 
 	@Override
 	@Transactional
-	public Producto guardarProducto(ProductoDTO productoDTO) throws Exception {
-		return productoRepository.save(parseProductoDTOtoProducto(productoDTO));
+	public ProductoResponseDTO guardarProducto(ProductoDTO productoDTO) throws Exception {
+		return ProductoHelper.productoAProductoResponseDTO(productoRepository.save(parseProductoDTOtoProducto(productoDTO)));
 	}
 	
 	
 	private Producto parseProductoDTOtoProducto(ProductoDTO productoDTO) throws Exception {
-		Familia familia = familiaService.findById(productoDTO.getIdFamilia());
+		FamiliaResponseDTO familia = familiaService.findById(productoDTO.getIdFamilia());
 		
 		if(familia == null) {
 			throw new Exception("No hay familia con el id " + productoDTO.getIdFamilia());
@@ -43,6 +55,8 @@ public class ProductoServiceImpl implements IProductoService {
 		Producto producto;
 		if(productoDTO.getIdProducto() == null) {
 			producto = new Producto();
+			producto.setIdProducto(UUID.randomUUID().toString());
+			producto.setActivo(ProductoConstants.ESTADO_ACTIVO);
 		} else {
 			Optional<Producto> productoResult = productoRepository.findById(productoDTO.getIdProducto());
 			if(productoResult.isPresent()) {
@@ -52,7 +66,6 @@ public class ProductoServiceImpl implements IProductoService {
 			}
 		}
 		
-		producto.setActivo(productoDTO.getActivo());
 		producto.setClasificacionRiesgo(productoDTO.getClasificacionRiesgo());
 		producto.setCodigo(productoDTO.getCodigo());
 		producto.setIdUsuario(productoDTO.getIdUsuario());
@@ -62,7 +75,8 @@ public class ProductoServiceImpl implements IProductoService {
 		producto.setProveedor(productoDTO.getProveedor());
 		producto.setRegInvima(productoDTO.getRegInvima());
 		producto.setTempAlmacenamiento(productoDTO.getTempAlmacenamiento());
-		producto.setFamilia(familia);
+		producto.setFamilia(new Familia());
+		producto.getFamilia().setIdFamilia(familia.getId());
 		
 		return producto;
 	}

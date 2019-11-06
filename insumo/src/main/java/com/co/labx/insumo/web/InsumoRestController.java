@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.co.labx.insumo.dto.ProductoDTO;
-import com.co.labx.insumo.model.Producto;
+import com.co.labx.insumo.dto.ProductoResponseDTO;
 import com.co.labx.insumo.service.IProductoService;
 
 @RestController
@@ -24,9 +24,9 @@ public class InsumoRestController {
 	private IProductoService productoService;
 	
 	@GetMapping("/listar")
-	public ResponseEntity<List<Producto>> obtener() {
+	public ResponseEntity<List<ProductoResponseDTO>> obtener() {
 		try {
-			List<Producto> productos = productoService.obtenerProductos();
+			List<ProductoResponseDTO> productos = productoService.obtenerProductos();
 			return ResponseEntity.status(HttpStatus.OK).body(productos);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -34,12 +34,12 @@ public class InsumoRestController {
 	}
 	
 	@PostMapping("/crear")
-	public ResponseEntity<Producto> crear(@RequestBody ProductoDTO productoDTO) {
+	public ResponseEntity<ProductoResponseDTO> crear(@RequestBody ProductoDTO productoDTO) {
 		try {
 			if(productoDTO.getIdFamilia() != null) {
 				new Exception("El producto no puede tener id");
 			}
-			Producto productoResponse = productoService.guardarProducto(productoDTO);
+			ProductoResponseDTO productoResponse = productoService.guardarProducto(productoDTO);
 			return ResponseEntity.status(HttpStatus.OK).body(productoResponse);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -47,12 +47,12 @@ public class InsumoRestController {
 	}
 	
 	@PutMapping("/actualizar")
-	public ResponseEntity<Producto> actualizar(@RequestBody ProductoDTO productoDTO) {
+	public ResponseEntity<ProductoResponseDTO> actualizar(@RequestBody ProductoDTO productoDTO) {
 		try {
 			if(productoDTO.getIdFamilia() == null) {
 				new Exception("El producto no tiene id");
 			}
-			Producto productoResponse = productoService.guardarProducto(productoDTO);
+			ProductoResponseDTO productoResponse = productoService.guardarProducto(productoDTO);
 			return ResponseEntity.status(HttpStatus.CREATED).body(productoResponse);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

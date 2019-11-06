@@ -2,12 +2,15 @@ package com.co.labx.insumo.service;
 
 import java.util.List;
 
-import com.co.labx.insumo.model.Familia;
+import com.co.labx.insumo.dto.FamiliaRequestDTO;
+import com.co.labx.insumo.dto.FamiliaResponseDTO;
 
 public interface IFamiliaService {
 
-	List<Familia> listar();
+	List<FamiliaResponseDTO> listar();
 	
-	Familia findById(String idFamilia);
+	FamiliaResponseDTO findById(String idFamilia);
+	
+	FamiliaResponseDTO crear(FamiliaRequestDTO familiaRequestDTO);
 	
 }
