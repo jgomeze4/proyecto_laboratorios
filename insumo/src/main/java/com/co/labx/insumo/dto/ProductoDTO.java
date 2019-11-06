@@ -1,10 +1,8 @@
 package com.co.labx.insumo.dto;
 
-import java.math.BigInteger;
-
 public class ProductoDTO {
 	
-	private Long idProducto;
+	private String idProducto;
 
 	private String activo;
 
@@ -12,7 +10,7 @@ public class ProductoDTO {
 
 	private String codigo;
 
-	private BigInteger idUsuario;
+	private String idUsuario;
 
 	private String marca;
 
@@ -26,13 +24,13 @@ public class ProductoDTO {
 
 	private String tempAlmacenamiento;
 	
-	private Long idFamilia;
+	private String idFamilia;
 	
-	public Long getIdProducto() {
+	public String getIdProducto() {
 		return idProducto;
 	}
 
-	public void setIdProducto(Long idProducto) {
+	public void setIdProducto(String idProducto) {
 		this.idProducto = idProducto;
 	}
 
@@ -60,11 +58,11 @@ public class ProductoDTO {
 		this.codigo = codigo;
 	}
 
-	public BigInteger getIdUsuario() {
+	public String getIdUsuario() {
 		return idUsuario;
 	}
 
-	public void setIdUsuario(BigInteger idUsuario) {
+	public void setIdUsuario(String idUsuario) {
 		this.idUsuario = idUsuario;
 	}
 
@@ -116,11 +114,11 @@ public class ProductoDTO {
 		this.tempAlmacenamiento = tempAlmacenamiento;
 	}
 
-	public Long getIdFamilia() {
+	public String getIdFamilia() {
 		return idFamilia;
 	}
 
-	public void setIdFamilia(Long idFamilia) {
+	public void setIdFamilia(String idFamilia) {
 		this.idFamilia = idFamilia;
 	}
 

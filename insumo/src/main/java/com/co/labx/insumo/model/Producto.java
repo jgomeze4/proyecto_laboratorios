@@ -2,7 +2,6 @@ package com.co.labx.insumo.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigInteger;
 
 
 /**
@@ -11,14 +10,12 @@ import java.math.BigInteger;
  */
 @Entity
 @Table(name="productos")
-@NamedQuery(name="Producto.findAll", query="SELECT p FROM Producto p")
 public class Producto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_producto")
-	private Long idProducto;
+	@Column(name="uuid_producto")
+	private String idProducto;
 
 	private String activo;
 
@@ -27,8 +24,8 @@ public class Producto implements Serializable {
 
 	private String codigo;
 
-	@Column(name="id_usuario")
-	private BigInteger idUsuario;
+	@Column(name="uuid_usuario")
+	private String idUsuario;
 
 	private String marca;
 
@@ -46,17 +43,17 @@ public class Producto implements Serializable {
 
 	//bi-directional many-to-one association to Familia
 	@ManyToOne
-	@JoinColumn(name="id_familia")
+	@JoinColumn(name="uuid_familia")
 	private Familia familia;
 
 	public Producto() {
 	}
 
-	public Long getIdProducto() {
+	public String getIdProducto() {
 		return this.idProducto;
 	}
 
-	public void setIdProducto(Long idProducto) {
+	public void setIdProducto(String idProducto) {
 		this.idProducto = idProducto;
 	}
 
@@ -84,11 +81,11 @@ public class Producto implements Serializable {
 		this.codigo = codigo;
 	}
 
-	public BigInteger getIdUsuario() {
+	public String getIdUsuario() {
 		return this.idUsuario;
 	}
 
-	public void setIdUsuario(BigInteger idUsuario) {
+	public void setIdUsuario(String idUsuario) {
 		this.idUsuario = idUsuario;
 	}
 

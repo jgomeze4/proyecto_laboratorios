@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.co.labx.insumo.model.Familia;
 
 @Repository
-public interface IFamiliaRepository extends JpaRepository<Familia, Long> {
+public interface IFamiliaRepository extends JpaRepository<Familia, String> {
 
 }

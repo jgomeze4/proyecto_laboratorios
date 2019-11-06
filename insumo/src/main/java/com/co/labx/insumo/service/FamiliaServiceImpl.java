@@ -21,7 +21,7 @@ public class FamiliaServiceImpl implements IFamiliaService {
 	}
 
 	@Override
-	public Familia findById(Long idFamilia) {
+	public Familia findById(String idFamilia) {
 		Optional<Familia> familia = familiaRepository.findById(idFamilia);
 		return familia.isPresent() ? familia.get() : null;
 	}

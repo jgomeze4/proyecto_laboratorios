@@ -2,7 +2,6 @@ package com.co.labx.insumo.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.util.List;
 
 
 /**
@@ -11,27 +10,28 @@ import java.util.List;
  */
 @Entity
 @Table(name="familias")
-@NamedQuery(name="Familia.findAll", query="SELECT f FROM Familia f")
 public class Familia implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_familia")
-	private Long idFamilia;
+	@Column(name="uuid_familia")
+	private String idFamilia;
 
 	private String activo;
 
 	private String nombre;
+	
+	@Column(name="uuid_usuario")
+	private String idUsuario;
 
 	public Familia() {
 	}
 
-	public Long getIdFamilia() {
+	public String getIdFamilia() {
 		return this.idFamilia;
 	}
 
-	public void setIdFamilia(Long idFamilia) {
+	public void setIdFamilia(String idFamilia) {
 		this.idFamilia = idFamilia;
 	}
 

@@ -8,6 +8,6 @@ public interface IFamiliaService {
 
 	List<Familia> listar();
 	
-	Familia findById(Long idFamilia);
+	Familia findById(String idFamilia);
 	
 }
