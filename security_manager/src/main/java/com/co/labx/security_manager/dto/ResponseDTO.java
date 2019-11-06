@@ -3,7 +3,7 @@ package com.co.labx.security_manager.dto;
 public class ResponseDTO {
 
 	private Boolean success;
-	private String token;
+	private UsuarioResponseDTO usuario;
 	private String message;
 	
 	public Boolean getSuccess() {
@@ -12,11 +12,11 @@ public class ResponseDTO {
 	public void setSuccess(Boolean success) {
 		this.success = success;
 	}
-	public String getToken() {
-		return token;
+	public UsuarioResponseDTO getUsuario() {
+		return usuario;
 	}
-	public void setToken(String token) {
-		this.token = token;
+	public void setUsuario(UsuarioResponseDTO usuario) {
+		this.usuario = usuario;
 	}
 	public String getMessage() {
 		return message;

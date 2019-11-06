@@ -17,20 +17,19 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ID_USUARIO")
-	private Long idUsuario;
+	@Column(name="uuid_usuario")
+	private String idUsuario;
 
-	@Column(name="Activo")
+	@Column(name="activo")
 	private String activo;
 
-	@Column(name="Cliente")
+	@Column(name="cliente")
 	private String cliente;
 
-	@Column(name="Contrasena")
+	@Column(name="contrasena")
 	private String contrasena;
 
-	@Column(name="Email")
+	@Column(name="email")
 	private String email;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -50,11 +49,11 @@ public class Usuario implements Serializable {
 	public Usuario() {
 	}
 
-	public Long getIdUsuario() {
+	public String getIdUsuario() {
 		return this.idUsuario;
 	}
 
-	public void setIdUsuario(Long idUsuario) {
+	public void setIdUsuario(String idUsuario) {
 		this.idUsuario = idUsuario;
 	}
 

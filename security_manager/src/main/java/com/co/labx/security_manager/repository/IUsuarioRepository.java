@@ -8,12 +8,12 @@ import org.springframework.stereotype.Repository;
 import com.co.labx.security_manager.model.Usuario;
 
 @Repository
-public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
+public interface IUsuarioRepository extends JpaRepository<Usuario, String> {
 
-	@Query(nativeQuery = true, value="SELECT * FROM usuarios WHERE Email = :email and Contrasena = :contrasena")
-	Usuario validarUsuarioContrasena(@Param("email") String email, @Param("contrasena") String contrasena);
+	@Query(nativeQuery = true, value="SELECT * FROM usuarios WHERE Email = :email and Contrasena = :contrasena and activo = :activo")
+	Usuario validarUsuarioContrasena(@Param("email") String email, @Param("contrasena") String contrasena, @Param("activo") String activo);
 	
-	@Query(nativeQuery = true, value="SELECT * FROM usuarios WHERE email = :email and token = :token having TIMESTAMPDIFF(MINUTE, fecha_uso_token, now()) <= 30")
-	Usuario validarToken(@Param("email") String email, @Param("token") String token);
+	@Query(nativeQuery = true, value="SELECT * FROM usuarios WHERE email = :email and token = :token and activo = :activo having TIMESTAMPDIFF(MINUTE, fecha_uso_token, now()) <= 30")
+	Usuario validarToken(@Param("email") String email, @Param("token") String token, @Param("activo") String activo);
 	
 }

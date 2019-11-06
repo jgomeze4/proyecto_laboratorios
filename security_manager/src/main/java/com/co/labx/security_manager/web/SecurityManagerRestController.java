@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.co.labx.security_manager.dto.ResponseDTO;
 import com.co.labx.security_manager.dto.UsuarioAuthDTO;
 import com.co.labx.security_manager.dto.UsuarioDTO;
+import com.co.labx.security_manager.dto.UsuarioResponseDTO;
 import com.co.labx.security_manager.service.IUsuarioService;
 
 @RestController
@@ -21,44 +22,43 @@ public class SecurityManagerRestController {
 	private IUsuarioService usuarioService;
 	
 	@PostMapping("/autenticar")
-	public ResponseEntity<ResponseDTO> generateToken(@RequestBody UsuarioDTO usuarioDTO) {
+	public ResponseEntity<UsuarioResponseDTO> generateToken(@RequestBody UsuarioDTO usuarioDTO) {
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
-			String token = usuarioService.autenticar(usuarioDTO);
-			if(token == null) {
+			UsuarioResponseDTO usuarioResponseDTO = usuarioService.autenticar(usuarioDTO);
+			if(usuarioResponseDTO == null) {
 				responseDTO.setSuccess(false);
 				responseDTO.setMessage("Valores Incorrectos");
-				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseDTO);
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 			} else {
 				responseDTO.setSuccess(true);
-				responseDTO.setToken(token);
-				return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
+				responseDTO.setUsuario(usuarioResponseDTO);
+				return ResponseEntity.status(HttpStatus.OK).body(usuarioResponseDTO);
 			}
 		} catch (Exception e) {
 			responseDTO.setSuccess(false);
 			responseDTO.setMessage("Ocurrió un error, por favor intenté más tarde");
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseDTO);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
 	
 	@PostMapping("/validar")
-	public ResponseEntity<ResponseDTO> generateToken(@RequestBody UsuarioAuthDTO usuarioAuthDTO) {
+	public ResponseEntity<Object> generateToken(@RequestBody UsuarioAuthDTO usuarioAuthDTO) {
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
 			String token = usuarioService.validarToken(usuarioAuthDTO);
 			if(token == null) {
 				responseDTO.setSuccess(false);
 				responseDTO.setMessage("No hay sesión activa");
-				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseDTO);
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 			} else {
 				responseDTO.setSuccess(true);
-				responseDTO.setToken(token);
-				return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
+				return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 			}
 		} catch (Exception e) {
 			responseDTO.setSuccess(false);
 			responseDTO.setMessage("Ocurrió un error, por favor intenté más tarde");
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseDTO);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
 }
