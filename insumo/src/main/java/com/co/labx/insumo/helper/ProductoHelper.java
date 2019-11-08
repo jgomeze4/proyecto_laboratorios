@@ -7,6 +7,10 @@ public class ProductoHelper {
 
 	public static ProductoResponseDTO productoAProductoResponseDTO(Producto producto) {
 		ProductoResponseDTO productoResponseDTO = new ProductoResponseDTO();
+		
+		if(producto == null) {
+			return null;
+		}
 
 		productoResponseDTO.setIdProducto(producto.getIdProducto());
 		productoResponseDTO.setClasificacionRiesgo(producto.getClasificacionRiesgo());

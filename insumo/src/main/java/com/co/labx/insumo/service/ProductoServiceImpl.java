@@ -80,6 +80,17 @@ public class ProductoServiceImpl implements IProductoService {
 		
 		return producto;
 	}
+
+	@Override
+	public ProductoResponseDTO obtenerProducto(String id) {
+		ProductoResponseDTO productoResponseDTO;
+		
+		Optional<Producto> producto = productoRepository.findById(id);
+		
+		productoResponseDTO = ProductoHelper.productoAProductoResponseDTO(producto.isPresent()?producto.get():null);
+		
+		return productoResponseDTO;
+	}
 	
 	
 }

@@ -8,5 +8,6 @@ import com.co.labx.insumo.dto.ProductoResponseDTO;
 public interface IProductoService {
 
 	List<ProductoResponseDTO> obtenerProductos();
+	ProductoResponseDTO obtenerProducto(String id);
 	ProductoResponseDTO guardarProducto(ProductoDTO productoDTO) throws Exception;
 }
