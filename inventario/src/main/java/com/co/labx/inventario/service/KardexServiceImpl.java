@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.co.labx.inventario.DTO.KardexDTO;
 import com.co.labx.inventario.DTO.MovimientoKardexDTO;
+import com.co.labx.inventario.constants.KardexConstants;
 import com.co.labx.inventario.constants.MovimientoKardexConstants;
 import com.co.labx.inventario.model.Kardex;
 import com.co.labx.inventario.model.KardexPK;
@@ -34,8 +35,8 @@ public class KardexServiceImpl implements IKardexService {
 	@Transactional
 	public Kardex ingresar(KardexDTO kardexDTO) {
 		KardexPK kardexPK = new KardexPK();
-		kardexPK.setIdProducto(kardexDTO.getIdProducto());
-		kardexPK.setIdBodega(kardexDTO.getIdBodega());
+		kardexPK.setUuidProducto(kardexDTO.getIdProducto());
+		kardexPK.setUuidBodega(kardexDTO.getIdBodega());
 		kardexPK.setLote(kardexDTO.getLote());
 		
 		Kardex kardex = new Kardex();
@@ -45,15 +46,20 @@ public class KardexServiceImpl implements IKardexService {
 			
 			kardex.setCantidadAnterior(kardexDTO.getCantidad());
 			kardex.setCantidad(kardex.getCantidad().add(kardexDTO.getCantidad()));
+			kardex.setUuidUsuarioModificacion(kardexDTO.getIdUsuario());
+			kardex.setFehcaModificacion(Calendar.getInstance().getTime());
 		} else {
 			kardex = new Kardex();
 			
 			kardex.setId(kardexPK);
-			kardex.setActivo(kardexDTO.getActivo()== null?"A":kardexDTO.getActivo());
+			kardex.setActivo(KardexConstants.KARDEX_ESTADO_ACTIVO);
 			kardex.setCantidad(kardexDTO.getCantidad());
 			kardex.setCantidadAnterior(new BigDecimal(0));
 			kardex.setFechaVencimiento(kardexDTO.getFechaVencimiento());
-			kardex.setIdUsuario(kardexDTO.getIdUsuario());
+			kardex.setUuidUsuarioCreacion(kardexDTO.getIdUsuario());
+			kardex.setFehcaCreacion(Calendar.getInstance().getTime());
+			kardex.setUuidUsuarioModificacion(kardexDTO.getIdUsuario());
+			kardex.setFehcaModificacion(Calendar.getInstance().getTime());
 		}
 		
 		kardex = kardexRepository.save(kardex);

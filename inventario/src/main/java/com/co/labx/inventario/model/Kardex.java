@@ -2,7 +2,6 @@ package com.co.labx.inventario.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +20,6 @@ public class Kardex implements Serializable {
 	@EmbeddedId
 	private KardexPK id;
 
-	@Column(name = "activo", columnDefinition = "varchar(1) default 'A'")
 	private String activo;
 
 	private BigDecimal cantidad;
@@ -33,22 +31,23 @@ public class Kardex implements Serializable {
 	@Column(name="fecha_vencimiento")
 	private Date fechaVencimiento;
 
-	@Column(name="id_usuario")
-	private Long idUsuario;
+	@Temporal(TemporalType.DATE)
+	@Column(name="fehca_creacion")
+	private Date fehcaCreacion;
 
-	//bi-directional many-to-one association to Producto
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="id_producto", insertable=false, updatable=false)
-	private Producto producto;
+	@Temporal(TemporalType.DATE)
+	@Column(name="fehca_modificacion")
+	private Date fehcaModificacion;
 
-	//bi-directional many-to-one association to Bodega
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="id_bodega", insertable=false, updatable=false)
-	private Bodega bodega;
+	@Column(name="uuid_usuario_creacion")
+	private String uuidUsuarioCreacion;
+
+	@Column(name="uuid_usuario_modificacion")
+	private String uuidUsuarioModificacion;
 
 	//bi-directional many-to-one association to MovimientoKardex
-	/*@OneToMany(mappedBy="kardex")
-	private List<MovimientoKardex> movimientoKardexs;*/
+	@OneToMany(mappedBy="kardex")
+	private List<MovimientoKardex> movimientoKardexs;
 
 	public Kardex() {
 	}
@@ -93,28 +92,58 @@ public class Kardex implements Serializable {
 		this.fechaVencimiento = fechaVencimiento;
 	}
 
-	public Long getIdUsuario() {
-		return this.idUsuario;
+	public Date getFehcaCreacion() {
+		return this.fehcaCreacion;
 	}
 
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setFehcaCreacion(Date fehcaCreacion) {
+		this.fehcaCreacion = fehcaCreacion;
 	}
 
-	public Producto getProducto() {
-		return this.producto;
+	public Date getFehcaModificacion() {
+		return this.fehcaModificacion;
 	}
 
-	public void setProducto(Producto producto) {
-		this.producto = producto;
+	public void setFehcaModificacion(Date fehcaModificacion) {
+		this.fehcaModificacion = fehcaModificacion;
 	}
 
-	public Bodega getBodega() {
-		return this.bodega;
+	public String getUuidUsuarioCreacion() {
+		return this.uuidUsuarioCreacion;
 	}
 
-	public void setBodega(Bodega bodega) {
-		this.bodega = bodega;
+	public void setUuidUsuarioCreacion(String uuidUsuarioCreacion) {
+		this.uuidUsuarioCreacion = uuidUsuarioCreacion;
+	}
+
+	public String getUuidUsuarioModificacion() {
+		return this.uuidUsuarioModificacion;
+	}
+
+	public void setUuidUsuarioModificacion(String uuidUsuarioModificacion) {
+		this.uuidUsuarioModificacion = uuidUsuarioModificacion;
+	}
+
+	public List<MovimientoKardex> getMovimientoKardexs() {
+		return this.movimientoKardexs;
+	}
+
+	public void setMovimientoKardexs(List<MovimientoKardex> movimientoKardexs) {
+		this.movimientoKardexs = movimientoKardexs;
+	}
+
+	public MovimientoKardex addMovimientoKardex(MovimientoKardex movimientoKardex) {
+		getMovimientoKardexs().add(movimientoKardex);
+		movimientoKardex.setKardex(this);
+
+		return movimientoKardex;
+	}
+
+	public MovimientoKardex removeMovimientoKardex(MovimientoKardex movimientoKardex) {
+		getMovimientoKardexs().remove(movimientoKardex);
+		movimientoKardex.setKardex(null);
+
+		return movimientoKardex;
 	}
 
 }

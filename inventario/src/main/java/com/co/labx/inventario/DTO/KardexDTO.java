@@ -1,29 +1,28 @@
 package com.co.labx.inventario.DTO;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Date;
 
 public class KardexDTO {
 
-	private BigInteger idProducto;
-	private BigInteger idBodega;
+	private String idProducto;
+	private String idBodega;
 	private String lote;
 	private String activo;
 	private BigDecimal cantidad;
 	private Date fechaVencimiento;
-	private Long idUsuario;
+	private String idUsuario;
 	
-	public BigInteger getIdProducto() {
+	public String getIdProducto() {
 		return idProducto;
 	}
-	public void setIdProducto(BigInteger idProducto) {
+	public void setIdProducto(String idProducto) {
 		this.idProducto = idProducto;
 	}
-	public BigInteger getIdBodega() {
+	public String getIdBodega() {
 		return idBodega;
 	}
-	public void setIdBodega(BigInteger idBodega) {
+	public void setIdBodega(String idBodega) {
 		this.idBodega = idBodega;
 	}
 	public String getLote() {
@@ -50,10 +49,10 @@ public class KardexDTO {
 	public void setFechaVencimiento(Date fechaVencimiento) {
 		this.fechaVencimiento = fechaVencimiento;
 	}
-	public Long getIdUsuario() {
+	public String getIdUsuario() {
 		return idUsuario;
 	}
-	public void setIdUsuario(Long idUsuario) {
+	public void setIdUsuario(String idUsuario) {
 		this.idUsuario = idUsuario;
 	}
 	

@@ -16,7 +16,7 @@ import com.co.labx.inventario.model.Kardex;
 import com.co.labx.inventario.service.IKardexService;
 
 @RestController
-@RequestMapping("/api/inventario")
+@RequestMapping("/inventario")
 public class KardexRestController {
 
 	@Autowired

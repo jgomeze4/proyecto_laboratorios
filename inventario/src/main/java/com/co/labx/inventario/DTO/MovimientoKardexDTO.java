@@ -1,21 +1,21 @@
 package com.co.labx.inventario.DTO;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Date;
 
 public class MovimientoKardexDTO {
 
-	private BigInteger idMovimiento;
+	private String idMovimiento;
 	private BigDecimal cantidad;
-	private Long idUsuario;
+	private String idUsuario;
 	private KardexDTO kardexDTO;
 	private String tipoMovimiento;
 	private Date fecha;
-	public BigInteger getIdMovimiento() {
+	
+	public String getIdMovimiento() {
 		return idMovimiento;
 	}
-	public void setIdMovimiento(BigInteger idMovimiento) {
+	public void setIdMovimiento(String idMovimiento) {
 		this.idMovimiento = idMovimiento;
 	}
 	public BigDecimal getCantidad() {
@@ -24,10 +24,10 @@ public class MovimientoKardexDTO {
 	public void setCantidad(BigDecimal cantidad) {
 		this.cantidad = cantidad;
 	}
-	public Long getIdUsuario() {
+	public String getIdUsuario() {
 		return idUsuario;
 	}
-	public void setIdUsuario(Long idUsuario) {
+	public void setIdUsuario(String idUsuario) {
 		this.idUsuario = idUsuario;
 	}
 	public KardexDTO getKardexDTO() {

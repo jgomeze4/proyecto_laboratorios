@@ -12,7 +12,7 @@ import com.co.labx.security_manager.dto.UsuarioDTO;
 import com.co.labx.security_manager.service.IUsuarioService;
 
 @RestController
-@RequestMapping("/api/usuario")
+@RequestMapping("/usuario")
 public class UsuarioRestController {
 	
 	@Autowired

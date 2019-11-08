@@ -1,8 +1,6 @@
 package com.co.labx.inventario.model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
-
 import javax.persistence.*;
 
 /**
@@ -14,21 +12,21 @@ public class KardexPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="id_producto", insertable=false, updatable=false)
-	private BigInteger idProducto;
+	@Column(name="uuid_producto")
+	private String uuidProducto;
 
 	private String lote;
 
-	@Column(name="id_bodega", insertable=false, updatable=false)
-	private BigInteger idBodega;
+	@Column(name="uuid_bodega")
+	private String uuidBodega;
 
 	public KardexPK() {
 	}
-	public BigInteger getIdProducto() {
-		return this.idProducto;
+	public String getUuidProducto() {
+		return this.uuidProducto;
 	}
-	public void setIdProducto(BigInteger idProducto) {
-		this.idProducto = idProducto;
+	public void setUuidProducto(String uuidProducto) {
+		this.uuidProducto = uuidProducto;
 	}
 	public String getLote() {
 		return this.lote;
@@ -36,11 +34,11 @@ public class KardexPK implements Serializable {
 	public void setLote(String lote) {
 		this.lote = lote;
 	}
-	public BigInteger getIdBodega() {
-		return this.idBodega;
+	public String getUuidBodega() {
+		return this.uuidBodega;
 	}
-	public void setIdBodega(BigInteger idBodega) {
-		this.idBodega = idBodega;
+	public void setUuidBodega(String uuidBodega) {
+		this.uuidBodega = uuidBodega;
 	}
 
 	public boolean equals(Object other) {
@@ -52,17 +50,17 @@ public class KardexPK implements Serializable {
 		}
 		KardexPK castOther = (KardexPK)other;
 		return 
-			this.idProducto.equals(castOther.idProducto)
+			this.uuidProducto.equals(castOther.uuidProducto)
 			&& this.lote.equals(castOther.lote)
-			&& this.idBodega.equals(castOther.idBodega);
+			&& this.uuidBodega.equals(castOther.uuidBodega);
 	}
 
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
-		hash = hash * prime + this.idProducto.hashCode();
+		hash = hash * prime + this.uuidProducto.hashCode();
 		hash = hash * prime + this.lote.hashCode();
-		hash = hash * prime + this.idBodega.hashCode();
+		hash = hash * prime + this.uuidBodega.hashCode();
 		
 		return hash;
 	}

@@ -15,7 +15,7 @@ import com.co.labx.security_manager.dto.UsuarioResponseDTO;
 import com.co.labx.security_manager.service.IUsuarioService;
 
 @RestController
-@RequestMapping("/api/security")
+@RequestMapping("/security")
 public class SecurityManagerRestController {
 
 	@Autowired

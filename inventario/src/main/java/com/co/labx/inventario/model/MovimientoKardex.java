@@ -17,39 +17,39 @@ public class MovimientoKardex implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_movimiento_kardex")
-	private Long idMovimientoKardex;
+	@Column(name="uuid_movimiento_kardex")
+	private String uuidMovimientoKardex;
 
 	private BigDecimal cantidad;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date fecha;
-
-	@Column(name="id_usuario")
-	private Long idUsuario;
+	@Column(name="fecha_movimiento")
+	private Date fechaMovimiento;
 
 	@Column(name="tipo_movimiento")
 	private String tipoMovimiento;
 
+	@Column(name="uuid_usuario_moviento")
+	private String uuidUsuarioMoviento;
+
 	//bi-directional many-to-one association to Kardex
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumns({
-		@JoinColumn(name="id_bodega", referencedColumnName="id_bodega"),
-		@JoinColumn(name="id_producto", referencedColumnName="id_producto"),
-		@JoinColumn(name="lote", referencedColumnName="lote")
+		@JoinColumn(name="lote", referencedColumnName="lote"),
+		@JoinColumn(name="uuid_bodega", referencedColumnName="uuid_bodega"),
+		@JoinColumn(name="uuid_producto", referencedColumnName="uuid_producto")
 		})
 	private Kardex kardex;
 
 	public MovimientoKardex() {
 	}
 
-	public Long getIdMovimientoKardex() {
-		return this.idMovimientoKardex;
+	public String getUuidMovimientoKardex() {
+		return this.uuidMovimientoKardex;
 	}
 
-	public void setIdMovimientoKardex(Long idMovimientoKardex) {
-		this.idMovimientoKardex = idMovimientoKardex;
+	public void setUuidMovimientoKardex(String uuidMovimientoKardex) {
+		this.uuidMovimientoKardex = uuidMovimientoKardex;
 	}
 
 	public BigDecimal getCantidad() {
@@ -60,20 +60,12 @@ public class MovimientoKardex implements Serializable {
 		this.cantidad = cantidad;
 	}
 
-	public Date getFecha() {
-		return this.fecha;
+	public Date getFechaMovimiento() {
+		return this.fechaMovimiento;
 	}
 
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
-
-	public Long getIdUsuario() {
-		return this.idUsuario;
-	}
-
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setFechaMovimiento(Date fechaMovimiento) {
+		this.fechaMovimiento = fechaMovimiento;
 	}
 
 	public String getTipoMovimiento() {
@@ -82,6 +74,14 @@ public class MovimientoKardex implements Serializable {
 
 	public void setTipoMovimiento(String tipoMovimiento) {
 		this.tipoMovimiento = tipoMovimiento;
+	}
+
+	public String getUuidUsuarioMoviento() {
+		return this.uuidUsuarioMoviento;
+	}
+
+	public void setUuidUsuarioMoviento(String uuidUsuarioMoviento) {
+		this.uuidUsuarioMoviento = uuidUsuarioMoviento;
 	}
 
 	public Kardex getKardex() {

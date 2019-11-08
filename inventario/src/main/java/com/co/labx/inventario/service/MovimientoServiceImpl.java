@@ -1,6 +1,7 @@
 package com.co.labx.inventario.service;
 
 import java.util.Calendar;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,15 +24,15 @@ public class MovimientoServiceImpl implements IMovimientoService {
 		
 		Kardex kar = new Kardex();
 		KardexPK kardexPK = new KardexPK();
-		kardexPK.setIdProducto(movimientoKardexDTO.getKardexDTO().getIdProducto());
-		kardexPK.setIdBodega(movimientoKardexDTO.getKardexDTO().getIdBodega());
+		kardexPK.setUuidProducto(movimientoKardexDTO.getKardexDTO().getIdProducto());
+		kardexPK.setUuidBodega(movimientoKardexDTO.getKardexDTO().getIdBodega());
 		kardexPK.setLote(movimientoKardexDTO.getKardexDTO().getLote());		
 		kar.setId(kardexPK);
 		
+		moKardex.setUuidMovimientoKardex(UUID.randomUUID().toString());
 		moKardex.setKardex(kar);
-		moKardex.setIdUsuario(movimientoKardexDTO.getIdUsuario());
-		moKardex.setFecha(Calendar.getInstance().getTime());
-		moKardex.setIdUsuario(movimientoKardexDTO.getIdUsuario());
+		moKardex.setUuidUsuarioMoviento(movimientoKardexDTO.getIdUsuario());
+		moKardex.setFechaMovimiento(Calendar.getInstance().getTime());
 		moKardex.setTipoMovimiento(movimientoKardexDTO.getTipoMovimiento());
 		moKardex.setCantidad(movimientoKardexDTO.getCantidad());
 		
