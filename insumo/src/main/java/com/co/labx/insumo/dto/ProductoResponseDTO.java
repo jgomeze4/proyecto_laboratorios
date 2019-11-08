@@ -84,12 +84,12 @@ public class ProductoResponseDTO {
 		this.regInvima = regInvima;
 	}
 
-	public FamiliaResponseDTO getFamiliaResponseDTO() {
-		return familiaResponseDTO;
+	public FamiliaResponseDTO getFamilia() {
+		return familia;
 	}
 	
-	public void setFamiliaResponseDTO(FamiliaResponseDTO familiaResponseDTO) {
-		this.familiaResponseDTO = familiaResponseDTO;
+	public void setFamilia(FamiliaResponseDTO familia) {
+		this.familia = familia;
 	}
 	
 }
