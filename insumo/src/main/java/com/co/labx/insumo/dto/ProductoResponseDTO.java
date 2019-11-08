@@ -18,7 +18,7 @@ public class ProductoResponseDTO {
 
 	private String regInvima;
 	
-	private FamiliaResponseDTO familiaResponseDTO;
+	private FamiliaResponseDTO familia;
 
 	public String getIdProducto() {
 		return idProducto;
