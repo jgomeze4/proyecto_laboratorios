@@ -16,7 +16,7 @@ import com.co.labx.insumo.dto.FamiliaResponseDTO;
 import com.co.labx.insumo.service.IFamiliaService;
 
 @RestController
-@RequestMapping("/api/familia")
+@RequestMapping("/familia")
 public class FamiliaRestController {
 
 	@Autowired

@@ -17,7 +17,7 @@ import com.co.labx.insumo.dto.ProductoResponseDTO;
 import com.co.labx.insumo.service.IProductoService;
 
 @RestController
-@RequestMapping("/api/insumo")
+@RequestMapping("/insumo")
 public class InsumoRestController {
 
 	@Autowired
