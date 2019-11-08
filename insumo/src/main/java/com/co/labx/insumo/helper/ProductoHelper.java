@@ -16,7 +16,7 @@ public class ProductoHelper {
 		productoResponseDTO.setPresentacion(producto.getPresentacion());
 		productoResponseDTO.setProveedor(producto.getProveedor());
 		productoResponseDTO.setRegInvima(producto.getRegInvima());
-		productoResponseDTO.setFamiliaResponseDTO(FamiliaHelper.familiaAFamiliaResponseDTO(producto.getFamilia()));
+		productoResponseDTO.setFamilia(FamiliaHelper.familiaAFamiliaResponseDTO(producto.getFamilia()));
 
 		return productoResponseDTO;
 	}
