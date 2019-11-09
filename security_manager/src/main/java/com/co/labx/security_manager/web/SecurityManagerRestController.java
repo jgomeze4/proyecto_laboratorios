@@ -22,17 +22,17 @@ public class SecurityManagerRestController {
 	private IUsuarioService usuarioService;
 	
 	@PostMapping("/autenticar")
-	public ResponseEntity<ResponseDTO> generateToken(@RequestBody UsuarioDTO usuarioDTO) {
-		ResponseDTO responseDTO = new ResponseDTO();
+	public ResponseEntity<ResponseDTO<UsuarioResponseDTO>> generateToken(@RequestBody UsuarioDTO usuarioDTO) {
+		ResponseDTO<UsuarioResponseDTO> responseDTO = new ResponseDTO<UsuarioResponseDTO>();
 		try {
 			UsuarioResponseDTO usuarioResponseDTO = usuarioService.autenticar(usuarioDTO);
 			if(usuarioResponseDTO == null) {
 				responseDTO.setSuccess(false);
-				responseDTO.setMessage("Valores Incorrectos");
+				responseDTO.setMessage("Usuario o Contraseña Incorrecta");
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseDTO);
 			} else {
 				responseDTO.setSuccess(true);
-				responseDTO.setUsuario(usuarioResponseDTO);
+				responseDTO.setData(usuarioResponseDTO);
 				return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
 			}
 		} catch (Exception e) {

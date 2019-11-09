@@ -2,7 +2,7 @@ package com.co.labx.util.dto;
 
 import java.io.Serializable;
 
-public class ResponseDTO implements Serializable {
+public class ResponseDTO<T> implements Serializable {
 
 	/**
 	 * 
@@ -10,7 +10,7 @@ public class ResponseDTO implements Serializable {
 	private static final long serialVersionUID = -6867281147033775704L;
 	
 	private Boolean success;
-	private UsuarioResponseDTO usuario;
+	private T data;
 	private String message;
 	
 	public Boolean getSuccess() {
@@ -19,11 +19,11 @@ public class ResponseDTO implements Serializable {
 	public void setSuccess(Boolean success) {
 		this.success = success;
 	}
-	public UsuarioResponseDTO getUsuario() {
-		return usuario;
+	public T getData() {
+		return data;
 	}
-	public void setUsuario(UsuarioResponseDTO usuario) {
-		this.usuario = usuario;
+	public void setData(T data) {
+		this.data = data;
 	}
 	public String getMessage() {
 		return message;
