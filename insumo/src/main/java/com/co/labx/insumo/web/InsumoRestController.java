@@ -56,10 +56,10 @@ public class InsumoRestController {
 	public ResponseEntity<ResponseDTO<ProductoResponseDTO>> crear(@RequestHeader("id") String id, @RequestBody ProductoDTO productoDTO) {
 		ResponseDTO<ProductoResponseDTO> productoResponse = new ResponseDTO<ProductoResponseDTO>();
 		try {
-			if(productoDTO.getIdFamilia() != null) {
+			if(productoDTO.getIdFamilia() == null) {
 				productoResponse.setSuccess(false);
 				productoResponse.setMessage("El producto no tiene id familia");
-				new Exception("El producto no tiene id familia");
+				new Exception(productoResponse.getMessage());
 			}
 			productoDTO.setIdUsuario(id);
 			productoService.guardarProducto(productoResponse, productoDTO);
@@ -68,6 +68,7 @@ public class InsumoRestController {
 			if(productoResponse.getMessage() == null || productoResponse.getMessage().isEmpty()) {
 				productoResponse.setMessage("Ocurrió un error, por favor intenté más tarde");
 			}
+			productoResponse.setSuccess(false);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(productoResponse);
 		}
 	}
@@ -76,10 +77,10 @@ public class InsumoRestController {
 	public ResponseEntity<ResponseDTO<ProductoResponseDTO>> actualizar(@RequestHeader("id") String id, @RequestBody ProductoDTO productoDTO) {
 		ResponseDTO<ProductoResponseDTO> productoResponse = new ResponseDTO<ProductoResponseDTO>();
 		try {
-			if(productoDTO.getIdFamilia() != null) {
+			if(productoDTO.getIdFamilia() == null) {
 				productoResponse.setSuccess(false);
 				productoResponse.setMessage("El producto no tiene id familia");
-				new Exception("El producto no tiene id familia");
+				new Exception(productoResponse.getMessage());
 			}
 			productoDTO.setIdUsuario(id);
 			productoService.guardarProducto(productoResponse, productoDTO);
@@ -88,6 +89,7 @@ public class InsumoRestController {
 			if(productoResponse.getMessage() == null || productoResponse.getMessage().isEmpty()) {
 				productoResponse.setMessage("Ocurrió un error, por favor intenté más tarde");
 			}
+			productoResponse.setSuccess(false);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(productoResponse);
 		}
 	}
