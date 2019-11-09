@@ -38,6 +38,7 @@ public class KardexHelper {
 			return null;
 		}
 		
+		System.out.print(productoResponseDTO.getIdProducto());
 		kardexResponseDTO.setProducto(productoResponseDTO);
 		kardexResponseDTO.setLote(kardex.getId().getLote());
 		kardexResponseDTO.setBodega(kardex.getId().getUuidBodega());

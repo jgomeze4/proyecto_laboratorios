@@ -49,7 +49,7 @@ public class KardexServiceImpl implements IKardexService {
 	@Transactional
 	public void ingresar(ResponseDTO<KardexResponseDTO> response, KardexDTO kardexDTO) throws Exception {
 		KardexPK kardexPK = new KardexPK();
-		ProductoResponseDTO productoResponseDTO = null;
+		ProductoResponseDTO productoResponseDTO = obtenerInfoProducto(response, kardexDTO);
 		
 		kardexPK.setUuidProducto(kardexDTO.getIdProducto());
 		kardexPK.setUuidBodega(kardexDTO.getIdBodega());
@@ -71,22 +71,6 @@ public class KardexServiceImpl implements IKardexService {
 			kardex.setUuidUsuarioModificacion(kardexDTO.getIdUsuario());
 			kardex.setFehcaModificacion(Calendar.getInstance().getTime());
 		} else {
-			try {
-				String url = String.format("%s%s%s", env.getProperty("labx.producto.host"),
-						env.getProperty("labx.insumo.path"), env.getProperty("labx.insumo.findPath")).replace("{idProducto}", kardexDTO.getIdProducto());
-				productoResponseDTO = clienteProductoService.doGet(url, 200);
-
-				if (productoResponseDTO == null) {
-					response.setMessage("El producto con el ID " + kardexDTO.getIdProducto() + " no existe.");
-					response.setSuccess(false);
-					throw new Exception(response.getMessage());
-				}
-			} catch (Exception e) {
-				response.setMessage("Ocurrió un error consultando producto.");
-				response.setSuccess(false);
-				throw new Exception(response.getMessage());
-			}
-
 			kardex = KardexHelper.parseKardexDTOAKardex(kardexDTO);
 
 			kardex.setActivo(KardexConstants.KARDEX_ESTADO_ACTIVO);
@@ -114,4 +98,27 @@ public class KardexServiceImpl implements IKardexService {
 		response.setSuccess(true);
 	}
 
+	private ProductoResponseDTO obtenerInfoProducto(ResponseDTO<KardexResponseDTO> response, KardexDTO kardexDTO) throws Exception {
+		try {
+			String url = String.format("%s%s%s", env.getProperty("labx.producto.host"),
+					env.getProperty("labx.insumo.path"), env.getProperty("labx.insumo.findPath")).replace("{idProducto}", kardexDTO.getIdProducto());
+			ProductoResponseDTO productoResponseDTO = clienteProductoService.doGet(url, 200);
+
+			if (productoResponseDTO == null) {
+				response.setMessage("El producto con el ID " + kardexDTO.getIdProducto() + " no existe.");
+				response.setSuccess(false);
+				throw new Exception(response.getMessage());
+			}
+			return productoResponseDTO;
+		} catch (Exception e) {
+			if(e.getMessage().contains(kardexDTO.getIdProducto())) {
+				response.setMessage(e.getMessage());
+			} else {
+				response.setMessage("Ocurrió un error consultando producto, por favor intenté más tarde.");
+			}
+			response.setSuccess(false);
+			throw new Exception(response.getMessage());
+		}
+	}
+	
 }
