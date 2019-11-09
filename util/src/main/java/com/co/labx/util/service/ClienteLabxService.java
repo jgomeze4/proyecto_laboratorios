@@ -50,7 +50,9 @@ public class ClienteLabxService<T> implements IClienteLabxService<T> {
 		} catch (IOException e) {
 			throw new Exception("Ocurrió un error al procesar la petición" + e.getMessage());
 		} finally {
-			con.disconnect();
+			if(con != null) {
+				con.disconnect();
+			}
 		}
 		return objectResponse;
 	}
