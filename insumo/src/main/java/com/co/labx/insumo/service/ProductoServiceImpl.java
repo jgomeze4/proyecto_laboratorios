@@ -101,6 +101,7 @@ public class ProductoServiceImpl implements IProductoService {
 		producto.setTempAlmacenamiento(productoDTO.getTempAlmacenamiento());
 		producto.setFamilia(new Familia());
 		producto.getFamilia().setIdFamilia(familia.getId());
+		producto.getFamilia().setNombre(familia.getNombre());
 
 		return producto;
 	}
