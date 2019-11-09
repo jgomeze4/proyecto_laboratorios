@@ -9,10 +9,19 @@ public class UsuarioResponseDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = -6275091986239873955L;
 	
+	private String id;
 	private String email;
 	private String nombre;
 	private String cliente;
 	private String token;
+	
+	public String getId() {
+		return id;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
 	
 	public String getEmail() {
 		return email;

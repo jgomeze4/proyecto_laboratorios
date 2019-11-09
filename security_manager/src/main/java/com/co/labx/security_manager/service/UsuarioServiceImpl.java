@@ -40,6 +40,7 @@ public class UsuarioServiceImpl implements IUsuarioService{
 			usuarioRepository.save(usuario);
 			
 			usuarioResponseDTO = new UsuarioResponseDTO();
+			usuarioResponseDTO.setId(usuario.getIdUsuario());
 			usuarioResponseDTO.setCliente(usuario.getCliente());
 			usuarioResponseDTO.setToken(token);
 			usuarioResponseDTO.setNombre(usuario.getNombre());
@@ -52,7 +53,7 @@ public class UsuarioServiceImpl implements IUsuarioService{
 	@Override
 	@Transactional
 	public String validarToken(UsuarioAuthDTO usuarioAuthDTO) {
-		Usuario usuario = usuarioRepository.validarToken(usuarioAuthDTO.getEmail(), usuarioAuthDTO.getToken(), UsuarioConstants.ESTADO_ACTIVO);
+		Usuario usuario = usuarioRepository.validarToken(usuarioAuthDTO.getId(), usuarioAuthDTO.getToken(), UsuarioConstants.ESTADO_ACTIVO);
 		String token = null;
 		if(usuario != null) {
 			token = usuario.getToken();
