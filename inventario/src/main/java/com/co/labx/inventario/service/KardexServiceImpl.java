@@ -66,6 +66,11 @@ public class KardexServiceImpl implements IKardexService {
 				response.setSuccess(false);
 				throw new Exception(response.getMessage());
 			}
+			if(kardex.getActivo().equals(KardexConstants.KARDEX_ESTADO_VENCIDO)) {
+				response.setMessage("No se puede hacer ingreso de inventario, el producto " + kardex.getId() + " está vencido.");
+				response.setSuccess(false);
+				throw new Exception(response.getMessage());
+			}
 			
 			kardex.setCantidadAnterior(kardex.getCantidad());
 			kardex.setCantidad(kardex.getCantidad().add(kardexDTO.getCantidad()));
@@ -120,6 +125,20 @@ public class KardexServiceImpl implements IKardexService {
 			response.setSuccess(false);
 			throw new Exception(response.getMessage());
 		}
+	}
+
+	@Override
+	@Transactional
+	public void validarKardexVencido() {
+		List<Kardex> kardex = kardexRepository.findByKardexVencimiento();
+		
+		for (Kardex k : kardex) {
+			k.setFehcaModificacion(Calendar.getInstance().getTime());
+			k.setActivo(KardexConstants.KARDEX_ESTADO_VENCIDO);
+			
+			kardexRepository.save(k);
+		}
+		
 	}
 	
 }
