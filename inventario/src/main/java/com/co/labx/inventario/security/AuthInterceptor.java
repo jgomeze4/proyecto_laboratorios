@@ -26,9 +26,10 @@ public class AuthInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler) throws Exception {		 
 		String token = req.getHeader("Authorization");
-		if(token.startsWith("Bearer ")) {
+		String id = req.getHeader("id");
+		if(token != null && token.startsWith("Bearer ") && id != null && !id.isEmpty()) {
 			Map<String, String> value = new HashMap<String, String>();
-			value.put("id", req.getHeader("id"));
+			value.put("id", id);
 			value.put("token", token.replace("Bearer ", ""));
 			
 			String url = String.format("%s%s", env.getProperty("labx.security.host"),
