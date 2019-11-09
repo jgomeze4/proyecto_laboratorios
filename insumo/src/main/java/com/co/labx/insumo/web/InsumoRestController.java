@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.co.labx.insumo.dto.ProductoDTO;
 import com.co.labx.util.dto.ProductoResponseDTO;
+import com.co.labx.util.dto.ResponseDTO;
 import com.co.labx.insumo.service.IProductoService;
 
 @RestController
@@ -51,28 +53,42 @@ public class InsumoRestController {
 	}
 	
 	@PostMapping("/crear")
-	public ResponseEntity<ProductoResponseDTO> crear(@RequestBody ProductoDTO productoDTO) {
+	public ResponseEntity<ResponseDTO<ProductoResponseDTO>> crear(@RequestHeader("id") String id, @RequestBody ProductoDTO productoDTO) {
+		ResponseDTO<ProductoResponseDTO> productoResponse = new ResponseDTO<ProductoResponseDTO>();
 		try {
 			if(productoDTO.getIdFamilia() != null) {
-				new Exception("El producto no puede tener id");
+				productoResponse.setSuccess(false);
+				productoResponse.setMessage("El producto no tiene id familia");
+				new Exception("El producto no tiene id familia");
 			}
-			ProductoResponseDTO productoResponse = productoService.guardarProducto(productoDTO);
+			productoDTO.setIdUsuario(id);
+			productoService.guardarProducto(productoResponse, productoDTO);
 			return ResponseEntity.status(HttpStatus.OK).body(productoResponse);
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+			if(productoResponse.getMessage() == null || productoResponse.getMessage().isEmpty()) {
+				productoResponse.setMessage("Ocurrió un error, por favor intenté más tarde");
+			}
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(productoResponse);
 		}
 	}
 	
 	@PutMapping("/actualizar")
-	public ResponseEntity<ProductoResponseDTO> actualizar(@RequestBody ProductoDTO productoDTO) {
+	public ResponseEntity<ResponseDTO<ProductoResponseDTO>> actualizar(@RequestHeader("id") String id, @RequestBody ProductoDTO productoDTO) {
+		ResponseDTO<ProductoResponseDTO> productoResponse = new ResponseDTO<ProductoResponseDTO>();
 		try {
-			if(productoDTO.getIdFamilia() == null) {
-				new Exception("El producto no tiene id");
+			if(productoDTO.getIdFamilia() != null) {
+				productoResponse.setSuccess(false);
+				productoResponse.setMessage("El producto no tiene id familia");
+				new Exception("El producto no tiene id familia");
 			}
-			ProductoResponseDTO productoResponse = productoService.guardarProducto(productoDTO);
+			productoDTO.setIdUsuario(id);
+			productoService.guardarProducto(productoResponse, productoDTO);
 			return ResponseEntity.status(HttpStatus.CREATED).body(productoResponse);
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+			if(productoResponse.getMessage() == null || productoResponse.getMessage().isEmpty()) {
+				productoResponse.setMessage("Ocurrió un error, por favor intenté más tarde");
+			}
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(productoResponse);
 		}
 	}
 	

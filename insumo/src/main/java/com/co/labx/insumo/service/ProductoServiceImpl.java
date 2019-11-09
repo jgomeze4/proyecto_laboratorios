@@ -13,6 +13,7 @@ import com.co.labx.insumo.constants.ProductoConstants;
 import com.co.labx.util.dto.FamiliaResponseDTO;
 import com.co.labx.insumo.dto.ProductoDTO;
 import com.co.labx.util.dto.ProductoResponseDTO;
+import com.co.labx.util.dto.ResponseDTO;
 import com.co.labx.insumo.helper.ProductoHelper;
 import com.co.labx.insumo.model.Familia;
 import com.co.labx.insumo.model.Producto;
@@ -23,7 +24,7 @@ public class ProductoServiceImpl implements IProductoService {
 
 	@Autowired
 	private IProductoRepository productoRepository;
-	
+
 	@Autowired
 	private IFamiliaService familiaService;
 
@@ -34,38 +35,61 @@ public class ProductoServiceImpl implements IProductoService {
 		productos.stream().forEach(x -> {
 			productoResponseDTOs.add(ProductoHelper.productoAProductoResponseDTO(x));
 		});
-		
+
 		return productoResponseDTOs;
 	}
 
 	@Override
 	@Transactional
-	public ProductoResponseDTO guardarProducto(ProductoDTO productoDTO) throws Exception {
-		return ProductoHelper.productoAProductoResponseDTO(productoRepository.save(parseProductoDTOtoProducto(productoDTO)));
+	public void guardarProducto(ResponseDTO<ProductoResponseDTO> response, ProductoDTO productoDTO) throws Exception {
+		Producto p = parseProductoDTOtoProducto(response, productoDTO);
+		productoRepository.save(p);
+		response.setData(ProductoHelper.productoAProductoResponseDTO(p));
+		response.setSuccess(true);
 	}
-	
-	
-	private Producto parseProductoDTOtoProducto(ProductoDTO productoDTO) throws Exception {
+
+	private Producto parseProductoDTOtoProducto(ResponseDTO<ProductoResponseDTO> response, ProductoDTO productoDTO)
+			throws Exception {
 		FamiliaResponseDTO familia = familiaService.findById(productoDTO.getIdFamilia());
-		
-		if(familia == null) {
-			throw new Exception("No hay familia con el id " + productoDTO.getIdFamilia());
+
+		if (familia == null) {
+			response.setSuccess(false);
+			response.setMessage("No hay familia con el id " + productoDTO.getIdFamilia());
+			throw new Exception(response.getMessage());
 		}
-		
+
 		Producto producto;
-		if(productoDTO.getIdProducto() == null) {
-			producto = new Producto();
-			producto.setIdProducto(UUID.randomUUID().toString());
-			producto.setActivo(ProductoConstants.ESTADO_ACTIVO);
+		if (productoDTO.getIdProducto() == null) {
+			if (productoRepository.findByValueUnique(productoDTO.getNombre(), productoDTO.getMarca(),
+					productoDTO.getProveedor()) == null) {
+				producto = new Producto();
+				producto.setIdProducto(UUID.randomUUID().toString());
+				producto.setActivo(ProductoConstants.ESTADO_ACTIVO);
+			} else {
+				response.setSuccess(false);
+				response.setMessage("El producto no se puede crear porque ya existe " + productoDTO.getNombre()
+						+ " con la marca " + productoDTO.getMarca() + " y el proveedor " + productoDTO.getProveedor());
+				throw new Exception(response.getMessage());
+			}
 		} else {
 			Optional<Producto> productoResult = productoRepository.findById(productoDTO.getIdProducto());
-			if(productoResult.isPresent()) {
+			if (productoResult.isPresent()) {
 				producto = productoResult.get();
+				Producto productoR = productoRepository.findByValueUnique(productoDTO.getNombre(), productoDTO.getMarca(),
+						productoDTO.getProveedor());
+				if (productoR == null || !productoR.getIdProducto().equals(producto.getIdProducto()))  {
+					response.setSuccess(false);
+					response.setMessage("El producto no se puede modificar porque ya existe " + productoDTO.getNombre()
+							+ " con la marca " + productoDTO.getMarca() + " y el proveedor " + productoDTO.getProveedor());
+					throw new Exception(response.getMessage());
+				}
 			} else {
-				throw new Exception("No hay producto con el id " + productoDTO.getIdProducto());
+				response.setSuccess(false);
+				response.setMessage("No hay producto con el id registrado para modificar" + productoDTO.getIdProducto());
+				throw new Exception(response.getMessage());
 			}
 		}
-		
+
 		producto.setClasificacionRiesgo(productoDTO.getClasificacionRiesgo());
 		producto.setCodigo(productoDTO.getCodigo());
 		producto.setIdUsuario(productoDTO.getIdUsuario());
@@ -77,20 +101,19 @@ public class ProductoServiceImpl implements IProductoService {
 		producto.setTempAlmacenamiento(productoDTO.getTempAlmacenamiento());
 		producto.setFamilia(new Familia());
 		producto.getFamilia().setIdFamilia(familia.getId());
-		
+
 		return producto;
 	}
 
 	@Override
 	public ProductoResponseDTO obtenerProducto(String id) {
 		ProductoResponseDTO productoResponseDTO;
-		
+
 		Optional<Producto> producto = productoRepository.findById(id);
-		
-		productoResponseDTO = ProductoHelper.productoAProductoResponseDTO(producto.isPresent()?producto.get():null);
-		
+
+		productoResponseDTO = ProductoHelper.productoAProductoResponseDTO(producto.isPresent() ? producto.get() : null);
+
 		return productoResponseDTO;
 	}
-	
-	
+
 }
