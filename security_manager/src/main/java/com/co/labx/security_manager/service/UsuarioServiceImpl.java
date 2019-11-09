@@ -17,7 +17,7 @@ import com.co.labx.security_manager.repository.IUsuarioRepository;
 import com.co.labx.util.dto.UsuarioResponseDTO;
 
 @Service
-public class UsuarioServiceImpl implements IUsuarioService{
+public class UsuarioServiceImpl implements IUsuarioService {
 
 	@Autowired
 	private IUsuarioRepository usuarioRepository;
@@ -25,20 +25,28 @@ public class UsuarioServiceImpl implements IUsuarioService{
 	@Override
 	@Transactional
 	public UsuarioResponseDTO autenticar(UsuarioDTO usuarioDTO) {
-		//valida usuario y password con DB
+		// valida usuario y password con DB
 		UsuarioResponseDTO usuarioResponseDTO = null;
 		String contrasena = CifrarHelper.Base64AString(usuarioDTO.getContrasena());
-		Usuario usuario = usuarioRepository.validarUsuarioContrasena(usuarioDTO.getEmail(), CifrarHelper.valorASHA256(contrasena), UsuarioConstants.ESTADO_ACTIVO);
+		Usuario usuario = usuarioRepository.validarUsuarioContrasena(usuarioDTO.getEmail(),
+				CifrarHelper.valorASHA256(contrasena), UsuarioConstants.ESTADO_ACTIVO);
 		String token = null;
-		if(usuario != null) {
-			token = UUID.randomUUID().toString();
-			
-			usuario.setToken(token);
-			usuario.setFecha_Geneacion_Token(new java.sql.Date((Calendar.getInstance().getTime()).getTime()));
-			usuario.setFecha_Uso_Token(usuario.getFecha_Geneacion_Token());
-			//Update de usuario, con token y la fecha de geneación
-			usuarioRepository.save(usuario);
-			
+		if (usuario != null) {
+			UsuarioAuthDTO usuarioAuthDTO = new UsuarioAuthDTO();
+			usuarioAuthDTO.setId(usuario.getIdUsuario());
+			usuarioAuthDTO.setId(usuario.getToken());
+			token = validarToken(usuarioAuthDTO);
+
+			if (token == null) {
+				token = UUID.randomUUID().toString();
+
+				usuario.setToken(token);
+				usuario.setFecha_Geneacion_Token(new java.sql.Date((Calendar.getInstance().getTime()).getTime()));
+				usuario.setFecha_Uso_Token(usuario.getFecha_Geneacion_Token());
+				// Update de usuario, con token y la fecha de geneación
+				usuarioRepository.save(usuario);
+			}
+
 			usuarioResponseDTO = new UsuarioResponseDTO();
 			usuarioResponseDTO.setId(usuario.getIdUsuario());
 			usuarioResponseDTO.setCliente(usuario.getCliente());
@@ -46,19 +54,20 @@ public class UsuarioServiceImpl implements IUsuarioService{
 			usuarioResponseDTO.setNombre(usuario.getNombre());
 			usuarioResponseDTO.setEmail(usuario.getEmail());
 		}
-		
+
 		return usuarioResponseDTO;
 	}
 
 	@Override
 	@Transactional
 	public String validarToken(UsuarioAuthDTO usuarioAuthDTO) {
-		Usuario usuario = usuarioRepository.validarToken(usuarioAuthDTO.getId(), usuarioAuthDTO.getToken(), UsuarioConstants.ESTADO_ACTIVO);
+		Usuario usuario = usuarioRepository.validarToken(usuarioAuthDTO.getId(), usuarioAuthDTO.getToken(),
+				UsuarioConstants.ESTADO_ACTIVO);
 		String token = null;
-		if(usuario != null) {
+		if (usuario != null) {
 			token = usuario.getToken();
 			usuario.setFecha_Uso_Token(new java.sql.Date((Calendar.getInstance().getTime()).getTime()));
-			//Update de usuario, con token y la fecha de geneación
+			// Update de usuario, con token y la fecha de geneación
 			usuarioRepository.save(usuario);
 		}
 		return token;
@@ -67,7 +76,7 @@ public class UsuarioServiceImpl implements IUsuarioService{
 	@Override
 	public void crearUsuario(UsuarioDTO usuarioDTO) {
 		Usuario usuario = new Usuario();
-		
+
 		String contrasena = CifrarHelper.Base64AString(usuarioDTO.getContrasena());
 		System.out.print(contrasena);
 		usuario.setIdUsuario(UUID.randomUUID().toString());
@@ -76,10 +85,8 @@ public class UsuarioServiceImpl implements IUsuarioService{
 		usuario.setEmail(usuarioDTO.getEmail());
 		usuario.setIdUsuario(UUID.randomUUID().toString());
 		usuario.setContrasena(CifrarHelper.valorASHA256(contrasena));
-		
+
 		usuarioRepository.save(usuario);
 	}
-	
-	
-	
+
 }
