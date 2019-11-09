@@ -4,11 +4,13 @@ import java.util.List;
 
 import com.co.labx.inventario.DTO.KardexDTO;
 import com.co.labx.inventario.model.Kardex;
+import com.co.labx.util.dto.KardexResponseDTO;
+import com.co.labx.util.dto.ResponseDTO;
 
 public interface IKardexService {
 
 	List<Kardex> listar();
 	
-	Kardex ingresar(KardexDTO kardexDTO) throws Exception;
+	void ingresar(ResponseDTO<KardexResponseDTO> response, KardexDTO kardexDTO) throws Exception;
 	
 }

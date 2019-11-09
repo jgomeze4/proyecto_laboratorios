@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import com.co.labx.inventario.DTO.KardexDTO;
 import com.co.labx.inventario.model.Kardex;
 import com.co.labx.inventario.model.KardexPK;
+import com.co.labx.util.dto.KardexResponseDTO;
+import com.co.labx.util.dto.ProductoResponseDTO;
 
 public class KardexHelper {
 
@@ -26,8 +28,25 @@ public class KardexHelper {
 		kardex.setUuidUsuarioModificacion(kardexDTO.getIdUsuario());
 		
 		return kardex;
-		
 	}
 	
+	
+	public static KardexResponseDTO parseKardexAKardexResponseDTO(ProductoResponseDTO productoResponseDTO, Kardex kardex) {
+		KardexResponseDTO kardexResponseDTO = new KardexResponseDTO();
+		
+		if(kardex == null) {
+			return null;
+		}
+		
+		kardexResponseDTO.setProducto(productoResponseDTO);
+		kardexResponseDTO.setLote(kardex.getId().getLote());
+		kardexResponseDTO.setBodega(kardex.getId().getUuidBodega());
+		kardexResponseDTO.setEstado(kardex.getActivo());
+		kardexResponseDTO.setCantidad(kardex.getCantidad());
+		kardexResponseDTO.setCantidadAnterior(kardex.getCantidadAnterior());
+		kardexResponseDTO.setFechaVencimiento(kardex.getFechaVencimiento());
+		
+		return kardexResponseDTO;
+	}
 	
 }

@@ -8,12 +8,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.co.labx.inventario.DTO.KardexDTO;
 import com.co.labx.inventario.model.Kardex;
 import com.co.labx.inventario.service.IKardexService;
+import com.co.labx.util.dto.KardexResponseDTO;
+import com.co.labx.util.dto.ResponseDTO;
 
 @RestController
 @RequestMapping("/inventario")
@@ -33,13 +36,19 @@ public class KardexRestController {
 	}
 	
 	@PostMapping("/ingresar")
-	public ResponseEntity<Kardex> ingresar(@RequestBody KardexDTO kardexDTO) {
+	public ResponseEntity<ResponseDTO<KardexResponseDTO>> ingresar(@RequestHeader("id") String id, @RequestBody KardexDTO kardexDTO) {
+		ResponseDTO<KardexResponseDTO> responseDTO = new ResponseDTO<>();
 		try {
-			Kardex kardex = kardexService.ingresar(kardexDTO);
-			return ResponseEntity.status(HttpStatus.OK).body(kardex);
+			kardexDTO.setIdUsuario(id);
+			kardexService.ingresar(responseDTO, kardexDTO);
+			return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+			if(responseDTO.getMessage() == null || responseDTO.getMessage().isEmpty()) {
+				responseDTO.setMessage("Ocurrió un error, por favor intenté más tarde");
+			}
+			responseDTO.setSuccess(false);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseDTO);
 		}
 	}
 	

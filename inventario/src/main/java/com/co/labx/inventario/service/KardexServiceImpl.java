@@ -16,7 +16,9 @@ import com.co.labx.inventario.helper.KardexHelper;
 import com.co.labx.inventario.model.Kardex;
 import com.co.labx.inventario.model.KardexPK;
 import com.co.labx.inventario.repository.IKardexRepository;
+import com.co.labx.util.dto.KardexResponseDTO;
 import com.co.labx.util.dto.ProductoResponseDTO;
+import com.co.labx.util.dto.ResponseDTO;
 import com.co.labx.util.service.ClienteLabxService;
 import com.co.labx.util.service.IClienteLabxService;
 
@@ -45,8 +47,10 @@ public class KardexServiceImpl implements IKardexService {
 
 	@Override
 	@Transactional
-	public Kardex ingresar(KardexDTO kardexDTO) throws Exception {
+	public void ingresar(ResponseDTO<KardexResponseDTO> response, KardexDTO kardexDTO) throws Exception {
 		KardexPK kardexPK = new KardexPK();
+		ProductoResponseDTO productoResponseDTO = null;
+		
 		kardexPK.setUuidProducto(kardexDTO.getIdProducto());
 		kardexPK.setUuidBodega(kardexDTO.getIdBodega());
 		kardexPK.setLote(kardexDTO.getLote());
@@ -56,25 +60,31 @@ public class KardexServiceImpl implements IKardexService {
 		if (kardexResult.isPresent()) {
 			kardex = kardexResult.get();
 
+			if(kardexDTO.getCantidad().compareTo(BigDecimal.ZERO) < 1) {
+				response.setMessage("La cantidad para ingresar debe ser mayor a 0");
+				response.setSuccess(false);
+				throw new Exception(response.getMessage());
+			}
+			
 			kardex.setCantidadAnterior(kardex.getCantidad());
 			kardex.setCantidad(kardex.getCantidad().add(kardexDTO.getCantidad()));
 			kardex.setUuidUsuarioModificacion(kardexDTO.getIdUsuario());
 			kardex.setFehcaModificacion(Calendar.getInstance().getTime());
 		} else {
-			ProductoResponseDTO productoResponseDTO;
 			try {
 				String url = String.format("%s%s%s", env.getProperty("labx.producto.host"),
 						env.getProperty("labx.insumo.path"), env.getProperty("labx.insumo.findPath")).replace("{idProducto}", kardexDTO.getIdProducto());
-				System.out.print(url);
 				productoResponseDTO = clienteProductoService.doGet(url, 200);
 
-				if (productoResponseDTO != null) {
-					System.out.print("Producto existe " + productoResponseDTO.getIdProducto());
-				} else {
-					throw new Exception("El producto con el ID " + kardexDTO.getIdProducto() + " no existe.");
+				if (productoResponseDTO == null) {
+					response.setMessage("El producto con el ID " + kardexDTO.getIdProducto() + " no existe.");
+					response.setSuccess(false);
+					throw new Exception(response.getMessage());
 				}
 			} catch (Exception e) {
-				throw e;
+				response.setMessage("Ocurrió un error consultando producto.");
+				response.setSuccess(false);
+				throw new Exception(response.getMessage());
 			}
 
 			kardex = KardexHelper.parseKardexDTOAKardex(kardexDTO);
@@ -99,8 +109,9 @@ public class KardexServiceImpl implements IKardexService {
 		mov.setTipoMovimiento(MovimientoKardexConstants.ENTRADA);
 
 		movimientoService.generarMovimiento(mov);
-
-		return kardex;
+		
+		response.setData(KardexHelper.parseKardexAKardexResponseDTO(productoResponseDTO, kardex));
+		response.setSuccess(true);
 	}
 
 }
