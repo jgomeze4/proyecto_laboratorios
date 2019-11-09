@@ -33,7 +33,7 @@ public class MovimientoKardex implements Serializable {
 	private String uuidUsuarioMoviento;
 
 	//bi-directional many-to-one association to Kardex
-	@ManyToOne
+	@ManyToOne(optional=false, fetch=FetchType.LAZY)
 	@JoinColumns({
 		@JoinColumn(name="lote", referencedColumnName="lote"),
 		@JoinColumn(name="uuid_bodega", referencedColumnName="uuid_bodega"),

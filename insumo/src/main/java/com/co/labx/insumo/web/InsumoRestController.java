@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.co.labx.insumo.dto.ProductoDTO;
-import com.co.labx.insumo.dto.ProductoResponseDTO;
+import com.co.labx.util.dto.ProductoResponseDTO;
 import com.co.labx.insumo.service.IProductoService;
 
 @RestController

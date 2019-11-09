@@ -3,7 +3,7 @@ package com.co.labx.insumo.service;
 import java.util.List;
 
 import com.co.labx.insumo.dto.ProductoDTO;
-import com.co.labx.insumo.dto.ProductoResponseDTO;
+import com.co.labx.util.dto.ProductoResponseDTO;
 
 public interface IProductoService {
 

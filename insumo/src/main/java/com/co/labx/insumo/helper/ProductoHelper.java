@@ -1,6 +1,6 @@
 package com.co.labx.insumo.helper;
 
-import com.co.labx.insumo.dto.ProductoResponseDTO;
+import com.co.labx.util.dto.ProductoResponseDTO;
 import com.co.labx.insumo.model.Producto;
 
 public class ProductoHelper {

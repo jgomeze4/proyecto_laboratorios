@@ -45,9 +45,9 @@ public class Kardex implements Serializable {
 	@Column(name="uuid_usuario_modificacion")
 	private String uuidUsuarioModificacion;
 
-	//bi-directional many-to-one association to MovimientoKardex
-	@OneToMany(mappedBy="kardex")
-	private List<MovimientoKardex> movimientoKardexs;
+	/*//bi-directional many-to-one association to MovimientoKardex
+	@OneToMany(mappedBy="kardex", fetch=FetchType.LAZY)
+	private List<MovimientoKardex> movimientoKardexs;*/
 
 	public Kardex() {
 	}
@@ -124,7 +124,7 @@ public class Kardex implements Serializable {
 		this.uuidUsuarioModificacion = uuidUsuarioModificacion;
 	}
 
-	public List<MovimientoKardex> getMovimientoKardexs() {
+	/*public List<MovimientoKardex> getMovimientoKardexs() {
 		return this.movimientoKardexs;
 	}
 
@@ -144,6 +144,6 @@ public class Kardex implements Serializable {
 		movimientoKardex.setKardex(null);
 
 		return movimientoKardex;
-	}
+	}*/
 
 }

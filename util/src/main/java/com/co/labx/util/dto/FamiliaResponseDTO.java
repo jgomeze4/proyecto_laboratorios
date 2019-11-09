@@ -1,6 +1,8 @@
-package com.co.labx.insumo.dto;
+package com.co.labx.util.dto;
 
-public class FamiliaResponseDTO {
+import java.io.Serializable;
+
+public class FamiliaResponseDTO implements Serializable {
 
 	private String id;
 	private String nombre;

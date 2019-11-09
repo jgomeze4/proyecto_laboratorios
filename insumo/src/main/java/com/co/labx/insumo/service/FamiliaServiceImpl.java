@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.co.labx.insumo.constants.FamiliaConstants;
 import com.co.labx.insumo.dto.FamiliaRequestDTO;
-import com.co.labx.insumo.dto.FamiliaResponseDTO;
+import com.co.labx.util.dto.FamiliaResponseDTO;
 import com.co.labx.insumo.helper.FamiliaHelper;
 import com.co.labx.insumo.model.Familia;
 import com.co.labx.insumo.repository.IFamiliaRepository;

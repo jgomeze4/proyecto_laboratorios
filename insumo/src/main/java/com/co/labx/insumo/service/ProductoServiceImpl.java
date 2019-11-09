@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.co.labx.insumo.constants.ProductoConstants;
-import com.co.labx.insumo.dto.FamiliaResponseDTO;
+import com.co.labx.util.dto.FamiliaResponseDTO;
 import com.co.labx.insumo.dto.ProductoDTO;
-import com.co.labx.insumo.dto.ProductoResponseDTO;
+import com.co.labx.util.dto.ProductoResponseDTO;
 import com.co.labx.insumo.helper.ProductoHelper;
 import com.co.labx.insumo.model.Familia;
 import com.co.labx.insumo.model.Producto;

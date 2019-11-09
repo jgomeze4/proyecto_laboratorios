@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.co.labx.inventario.DTO.MovimientoKardexDTO;
 import com.co.labx.inventario.model.Kardex;
@@ -19,11 +20,13 @@ public class MovimientoServiceImpl implements IMovimientoService {
 	private IMovimientoKardexRepository movimientoKardexRepository;
 	
 	@Override
+	@Transactional
 	public MovimientoKardex generarMovimiento(MovimientoKardexDTO movimientoKardexDTO) {
 		MovimientoKardex moKardex = new MovimientoKardex();
 		
 		Kardex kar = new Kardex();
 		KardexPK kardexPK = new KardexPK();
+		
 		kardexPK.setUuidProducto(movimientoKardexDTO.getKardexDTO().getIdProducto());
 		kardexPK.setUuidBodega(movimientoKardexDTO.getKardexDTO().getIdBodega());
 		kardexPK.setLote(movimientoKardexDTO.getKardexDTO().getLote());		

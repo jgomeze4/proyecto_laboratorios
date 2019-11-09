@@ -3,7 +3,7 @@ package com.co.labx.insumo.service;
 import java.util.List;
 
 import com.co.labx.insumo.dto.FamiliaRequestDTO;
-import com.co.labx.insumo.dto.FamiliaResponseDTO;
+import com.co.labx.util.dto.FamiliaResponseDTO;
 
 public interface IFamiliaService {
 

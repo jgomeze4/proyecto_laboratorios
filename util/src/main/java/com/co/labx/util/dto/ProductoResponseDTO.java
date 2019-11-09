@@ -1,6 +1,8 @@
-package com.co.labx.insumo.dto;
+package com.co.labx.util.dto;
 
-public class ProductoResponseDTO {
+import java.io.Serializable;
+
+public class ProductoResponseDTO implements Serializable {
 
 	private String idProducto;
 

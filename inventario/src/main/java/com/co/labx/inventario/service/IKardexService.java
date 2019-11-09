@@ -9,6 +9,6 @@ public interface IKardexService {
 
 	List<Kardex> listar();
 	
-	Kardex ingresar(KardexDTO kardexDTO);
+	Kardex ingresar(KardexDTO kardexDTO) throws Exception;
 	
 }

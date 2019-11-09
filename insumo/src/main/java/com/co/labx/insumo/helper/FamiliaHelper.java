@@ -1,6 +1,6 @@
 package com.co.labx.insumo.helper;
 
-import com.co.labx.insumo.dto.FamiliaResponseDTO;
+import com.co.labx.util.dto.FamiliaResponseDTO;
 import com.co.labx.insumo.model.Familia;
 
 public class FamiliaHelper {

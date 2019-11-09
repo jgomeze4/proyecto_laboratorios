@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.co.labx.insumo.dto.FamiliaRequestDTO;
-import com.co.labx.insumo.dto.FamiliaResponseDTO;
+import com.co.labx.util.dto.FamiliaResponseDTO;
 import com.co.labx.insumo.service.IFamiliaService;
 
 @RestController
