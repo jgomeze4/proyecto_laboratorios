@@ -44,20 +44,14 @@ public class SecurityManagerRestController {
 	
 	@PostMapping("/validar")
 	public ResponseEntity<String> generateToken(@RequestBody UsuarioAuthDTO usuarioAuthDTO) {
-		ResponseDTO responseDTO = new ResponseDTO();
 		try {
 			String token = usuarioService.validarToken(usuarioAuthDTO);
 			if(token == null) {
-				responseDTO.setSuccess(false);
-				responseDTO.setMessage("No hay sesión activa");
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 			} else {
-				responseDTO.setSuccess(true);
 				return ResponseEntity.status(HttpStatus.OK).body(token);
 			}
 		} catch (Exception e) {
-			responseDTO.setSuccess(false);
-			responseDTO.setMessage("Ocurrió un error, por favor intenté más tarde");
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
