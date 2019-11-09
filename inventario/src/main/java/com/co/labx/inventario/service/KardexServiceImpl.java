@@ -56,7 +56,7 @@ public class KardexServiceImpl implements IKardexService {
 		if (kardexResult.isPresent()) {
 			kardex = kardexResult.get();
 
-			kardex.setCantidadAnterior(kardexDTO.getCantidad());
+			kardex.setCantidadAnterior(kardex.getCantidad());
 			kardex.setCantidad(kardex.getCantidad().add(kardexDTO.getCantidad()));
 			kardex.setUuidUsuarioModificacion(kardexDTO.getIdUsuario());
 			kardex.setFehcaModificacion(Calendar.getInstance().getTime());
