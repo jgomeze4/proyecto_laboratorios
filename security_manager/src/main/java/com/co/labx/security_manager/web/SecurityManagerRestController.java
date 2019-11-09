@@ -22,23 +22,23 @@ public class SecurityManagerRestController {
 	private IUsuarioService usuarioService;
 	
 	@PostMapping("/autenticar")
-	public ResponseEntity<UsuarioResponseDTO> generateToken(@RequestBody UsuarioDTO usuarioDTO) {
+	public ResponseEntity<ResponseDTO> generateToken(@RequestBody UsuarioDTO usuarioDTO) {
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
 			UsuarioResponseDTO usuarioResponseDTO = usuarioService.autenticar(usuarioDTO);
 			if(usuarioResponseDTO == null) {
 				responseDTO.setSuccess(false);
 				responseDTO.setMessage("Valores Incorrectos");
-				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseDTO);
 			} else {
 				responseDTO.setSuccess(true);
 				responseDTO.setUsuario(usuarioResponseDTO);
-				return ResponseEntity.status(HttpStatus.OK).body(usuarioResponseDTO);
+				return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
 			}
 		} catch (Exception e) {
 			responseDTO.setSuccess(false);
 			responseDTO.setMessage("Ocurrió un error, por favor intenté más tarde");
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseDTO);
 		}
 	}
 	
