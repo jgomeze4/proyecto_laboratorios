@@ -2,7 +2,7 @@ package com.co.labx.security_manager.service;
 
 import com.co.labx.security_manager.dto.UsuarioAuthDTO;
 import com.co.labx.security_manager.dto.UsuarioDTO;
-import com.co.labx.security_manager.dto.UsuarioResponseDTO;
+import com.co.labx.util.dto.UsuarioResponseDTO;
 
 public interface IUsuarioService {
 

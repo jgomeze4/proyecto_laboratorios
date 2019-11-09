@@ -66,7 +66,7 @@ public class KardexServiceImpl implements IKardexService {
 				String url = String.format("%s%s%s", env.getProperty("labx.producto.host"),
 						env.getProperty("labx.insumo.path"), env.getProperty("labx.insumo.findPath")).replace("{idProducto}", kardexDTO.getIdProducto());
 				System.out.print(url);
-				productoResponseDTO = clienteProductoService.doGet(url);
+				productoResponseDTO = clienteProductoService.doGet(url, 200);
 
 				if (productoResponseDTO != null) {
 					System.out.print("Producto existe " + productoResponseDTO.getIdProducto());

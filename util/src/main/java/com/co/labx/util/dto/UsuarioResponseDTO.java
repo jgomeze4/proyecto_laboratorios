@@ -1,19 +1,19 @@
-package com.co.labx.security_manager.dto;
+package com.co.labx.util.dto;
 
-public class UsuarioResponseDTO {
+import java.io.Serializable;
 
-	private String uuId;
+public class UsuarioResponseDTO implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6275091986239873955L;
+	
 	private String email;
 	private String nombre;
 	private String cliente;
 	private String token;
 	
-	public String getUuId() {
-		return uuId;
-	}
-	public void setUuId(String uuId) {
-		this.uuId = uuId;
-	}
 	public String getEmail() {
 		return email;
 	}

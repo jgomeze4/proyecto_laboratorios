@@ -1,7 +1,14 @@
-package com.co.labx.security_manager.dto;
+package com.co.labx.util.dto;
 
-public class ResponseDTO {
+import java.io.Serializable;
 
+public class ResponseDTO implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6867281147033775704L;
+	
 	private Boolean success;
 	private UsuarioResponseDTO usuario;
 	private String message;

@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 public class ProductoResponseDTO implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3865417924477421985L;
+
 	private String idProducto;
 
 	private String clasificacionRiesgo;

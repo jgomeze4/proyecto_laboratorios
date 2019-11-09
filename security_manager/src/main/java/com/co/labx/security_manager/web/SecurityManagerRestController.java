@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.co.labx.security_manager.dto.ResponseDTO;
+import com.co.labx.util.dto.ResponseDTO;
 import com.co.labx.security_manager.dto.UsuarioAuthDTO;
 import com.co.labx.security_manager.dto.UsuarioDTO;
-import com.co.labx.security_manager.dto.UsuarioResponseDTO;
+import com.co.labx.util.dto.UsuarioResponseDTO;
 import com.co.labx.security_manager.service.IUsuarioService;
 
 @RestController
@@ -43,7 +43,7 @@ public class SecurityManagerRestController {
 	}
 	
 	@PostMapping("/validar")
-	public ResponseEntity<Object> generateToken(@RequestBody UsuarioAuthDTO usuarioAuthDTO) {
+	public ResponseEntity<String> generateToken(@RequestBody UsuarioAuthDTO usuarioAuthDTO) {
 		ResponseDTO responseDTO = new ResponseDTO();
 		try {
 			String token = usuarioService.validarToken(usuarioAuthDTO);
@@ -53,7 +53,7 @@ public class SecurityManagerRestController {
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 			} else {
 				responseDTO.setSuccess(true);
-				return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+				return ResponseEntity.status(HttpStatus.OK).body(token);
 			}
 		} catch (Exception e) {
 			responseDTO.setSuccess(false);

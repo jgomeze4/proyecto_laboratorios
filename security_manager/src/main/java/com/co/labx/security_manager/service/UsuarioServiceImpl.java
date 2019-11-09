@@ -10,10 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.co.labx.security_manager.constants.UsuarioConstants;
 import com.co.labx.security_manager.dto.UsuarioAuthDTO;
 import com.co.labx.security_manager.dto.UsuarioDTO;
-import com.co.labx.security_manager.dto.UsuarioResponseDTO;
 import com.co.labx.security_manager.helper.CifrarHelper;
 import com.co.labx.security_manager.model.Usuario;
 import com.co.labx.security_manager.repository.IUsuarioRepository;
+
+import com.co.labx.util.dto.UsuarioResponseDTO;
 
 @Service
 public class UsuarioServiceImpl implements IUsuarioService{
@@ -40,7 +41,6 @@ public class UsuarioServiceImpl implements IUsuarioService{
 			
 			usuarioResponseDTO = new UsuarioResponseDTO();
 			usuarioResponseDTO.setCliente(usuario.getCliente());
-			usuarioResponseDTO.setUuId(usuario.getIdUsuario());
 			usuarioResponseDTO.setToken(token);
 			usuarioResponseDTO.setNombre(usuario.getNombre());
 			usuarioResponseDTO.setEmail(usuario.getEmail());
