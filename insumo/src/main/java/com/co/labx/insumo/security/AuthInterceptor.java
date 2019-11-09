@@ -28,7 +28,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 		String token = req.getHeader("Authorization");
 		if(token.startsWith("Bearer ")) {
 			Map<String, String> value = new HashMap<String, String>();
-			value.put("email", req.getHeader("user"));
+			value.put("id", req.getHeader("id"));
 			value.put("token", token.replace("Bearer ", ""));
 			
 			String url = String.format("%s%s", env.getProperty("labx.security.host"),
