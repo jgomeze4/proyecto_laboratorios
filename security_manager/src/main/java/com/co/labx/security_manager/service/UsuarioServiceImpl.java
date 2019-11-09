@@ -34,7 +34,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
 		if (usuario != null) {
 			UsuarioAuthDTO usuarioAuthDTO = new UsuarioAuthDTO();
 			usuarioAuthDTO.setId(usuario.getIdUsuario());
-			usuarioAuthDTO.setId(usuario.getToken());
+			usuarioAuthDTO.setToken(usuario.getToken());
 			token = validarToken(usuarioAuthDTO);
 
 			if (token == null) {
