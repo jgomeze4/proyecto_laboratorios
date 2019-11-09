@@ -1,6 +1,7 @@
 package com.co.labx.inventario.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.co.labx.inventario.DTO.KardexDTO;
 import com.co.labx.inventario.model.Kardex;
@@ -11,6 +12,6 @@ public interface IKardexService {
 
 	List<Kardex> listar();
 	
-	void ingresar(ResponseDTO<KardexResponseDTO> response, KardexDTO kardexDTO) throws Exception;
+	void ingresar(ResponseDTO<KardexResponseDTO> response, KardexDTO kardexDTO, Map<String, String> headers) throws Exception;
 	
 }

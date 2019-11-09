@@ -1,6 +1,8 @@
 package com.co.labx.inventario.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,11 +38,14 @@ public class KardexRestController {
 	}
 	
 	@PostMapping("/ingresar")
-	public ResponseEntity<ResponseDTO<KardexResponseDTO>> ingresar(@RequestHeader("id") String id, @RequestBody KardexDTO kardexDTO) {
+	public ResponseEntity<ResponseDTO<KardexResponseDTO>> ingresar(@RequestHeader("id") String id, @RequestHeader("Authorization") String authorization, @RequestBody KardexDTO kardexDTO) {
 		ResponseDTO<KardexResponseDTO> responseDTO = new ResponseDTO<>();
 		try {
+			Map<String, String> headers = new HashMap<String, String>();
+			headers.put("id", id);
+			headers.put("Authorization", authorization);
 			kardexDTO.setIdUsuario(id);
-			kardexService.ingresar(responseDTO, kardexDTO);
+			kardexService.ingresar(responseDTO, kardexDTO, headers);
 			return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
 		} catch (Exception e) {
 			System.out.print(e.getMessage());

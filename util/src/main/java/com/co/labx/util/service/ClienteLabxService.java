@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
+import java.util.Optional;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -21,7 +22,7 @@ public class ClienteLabxService<T> implements IClienteLabxService<T> {
         this.tipoClase = tipoClase;
     }
 
-	public T doGet(String url, int codeSucess) throws Exception {
+	public T doGet(String url, int codeSucess, Map<String, String> headers) throws Exception {
 		HttpURLConnection con = null;
 		T objectResponse = null; 
 		try {
@@ -29,6 +30,11 @@ public class ClienteLabxService<T> implements IClienteLabxService<T> {
 			con = (HttpURLConnection) new URL(url).openConnection();
 			con.setRequestMethod("GET");
 			con.setRequestProperty("Content-Type", "application/json; utf-8");
+			if(headers != null) {
+				for (Map.Entry<String, String> header : headers.entrySet()) {
+			        con.setRequestProperty(header.getKey(), header.getValue());
+				}
+			}
 			
 			if(con.getResponseCode() == codeSucess) {		
 				StringBuilder content;
@@ -57,13 +63,18 @@ public class ClienteLabxService<T> implements IClienteLabxService<T> {
 		return objectResponse;
 	}
 	
-	public T doPost(String url, Map<String, String> params, int codeSucess) throws Exception {
+	public T doPost(String url, Map<String, String> params, int codeSucess, Optional<Map<String, String>> headers) throws Exception {
 		HttpURLConnection con = null;
 		T objectResponse = null; 
 		try {
 			con = (HttpURLConnection) new URL(url).openConnection();
 			con.setRequestMethod("POST");
 			con.setRequestProperty("Content-Type", "application/json; utf-8");
+			if(headers.isPresent()) {
+				for (Map.Entry<String, String> header : headers.get().entrySet()) {
+			        con.setRequestProperty(header.getKey(), header.getValue());
+				}
+			}
 			con.setDoInput(true);
 			con.setDoOutput(true);
 			

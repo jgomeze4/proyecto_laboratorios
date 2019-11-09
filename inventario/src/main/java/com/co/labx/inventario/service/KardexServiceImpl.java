@@ -3,6 +3,7 @@ package com.co.labx.inventario.service;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -47,9 +48,9 @@ public class KardexServiceImpl implements IKardexService {
 
 	@Override
 	@Transactional
-	public void ingresar(ResponseDTO<KardexResponseDTO> response, KardexDTO kardexDTO) throws Exception {
+	public void ingresar(ResponseDTO<KardexResponseDTO> response, KardexDTO kardexDTO, Map<String, String> headers) throws Exception {
 		KardexPK kardexPK = new KardexPK();
-		ProductoResponseDTO productoResponseDTO = obtenerInfoProducto(response, kardexDTO);
+		ProductoResponseDTO productoResponseDTO = obtenerInfoProducto(response, kardexDTO, headers);
 		
 		kardexPK.setUuidProducto(kardexDTO.getIdProducto());
 		kardexPK.setUuidBodega(kardexDTO.getIdBodega());
@@ -98,11 +99,11 @@ public class KardexServiceImpl implements IKardexService {
 		response.setSuccess(true);
 	}
 
-	private ProductoResponseDTO obtenerInfoProducto(ResponseDTO<KardexResponseDTO> response, KardexDTO kardexDTO) throws Exception {
+	private ProductoResponseDTO obtenerInfoProducto(ResponseDTO<KardexResponseDTO> response, KardexDTO kardexDTO, Map<String, String> headers) throws Exception {
 		try {
 			String url = String.format("%s%s%s", env.getProperty("labx.producto.host"),
 					env.getProperty("labx.insumo.path"), env.getProperty("labx.insumo.findPath")).replace("{idProducto}", kardexDTO.getIdProducto());
-			ProductoResponseDTO productoResponseDTO = clienteProductoService.doGet(url, 200);
+			ProductoResponseDTO productoResponseDTO = clienteProductoService.doGet(url, 200, headers);
 
 			if (productoResponseDTO == null) {
 				response.setMessage("El producto con el ID " + kardexDTO.getIdProducto() + " no existe.");

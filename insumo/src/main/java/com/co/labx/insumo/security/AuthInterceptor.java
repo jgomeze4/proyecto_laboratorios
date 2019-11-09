@@ -34,7 +34,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 			
 			String url = String.format("%s%s", env.getProperty("labx.security.host"),
 					env.getProperty("labx.security.path"));
-			String responseValidation = clienteSecurityLabx.doPost(url, value, 200);
+			String responseValidation = clienteSecurityLabx.doPost(url, value, 200, null);
 			if(responseValidation != null && responseValidation.equals(token.replace("Bearer ", ""))) {
 				return true;
 			}
