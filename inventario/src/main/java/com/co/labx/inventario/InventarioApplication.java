@@ -2,6 +2,7 @@ package com.co.labx.inventario;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -17,9 +18,14 @@ public class InventarioApplication extends WebMvcConfigurerAdapter {
 		SpringApplication.run(InventarioApplication.class, args);
 	}
 	
+	@Bean
+	public AuthInterceptor authInterceptor() {
+	    return new AuthInterceptor();
+	}
+	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/**");
+		registry.addInterceptor(authInterceptor()).addPathPatterns("/**");
 	}
 
 }
