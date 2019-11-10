@@ -1,6 +1,7 @@
 package com.co.labx.inventario.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -42,8 +43,14 @@ public class KardexServiceImpl implements IKardexService {
 	}
 
 	@Override
-	public List<Kardex> listar() {
-		return kardexRepository.findAll();
+	public List<KardexResponseDTO> listar(Map<String, String> headers) throws Exception {
+		List<KardexResponseDTO> kardexResponseDTOs = new ArrayList<KardexResponseDTO>();
+		List<Kardex> kardex = kardexRepository.findAll();
+		for (Kardex kardex2 : kardex) {
+			ProductoResponseDTO productoResponseDTO = obtenerInfoProducto(new ResponseDTO<KardexResponseDTO>(), kardex2.getId().getUuidProducto(), headers);
+			kardexResponseDTOs.add(KardexHelper.parseKardexAKardexResponseDTO(productoResponseDTO, kardex2));
+		}
+		return kardexResponseDTOs;
 	}
 
 	@Override
@@ -51,7 +58,7 @@ public class KardexServiceImpl implements IKardexService {
 	public void ingresar(ResponseDTO<KardexResponseDTO> response, KardexDTO kardexDTO, Map<String, String> headers)
 			throws Exception {
 		KardexPK kardexPK = new KardexPK();
-		ProductoResponseDTO productoResponseDTO = obtenerInfoProducto(response, kardexDTO, headers);
+		ProductoResponseDTO productoResponseDTO = obtenerInfoProducto(response, kardexDTO.getIdProducto(), headers);
 
 		kardexPK.setUuidProducto(kardexDTO.getIdProducto());
 		kardexPK.setUuidBodega(kardexDTO.getIdBodega());
@@ -106,22 +113,22 @@ public class KardexServiceImpl implements IKardexService {
 		response.setSuccess(true);
 	}
 
-	private ProductoResponseDTO obtenerInfoProducto(ResponseDTO<KardexResponseDTO> response, KardexDTO kardexDTO,
+	private ProductoResponseDTO obtenerInfoProducto(ResponseDTO<KardexResponseDTO> response, String idProducto,
 			Map<String, String> headers) throws Exception {
 		try {
 			String url = String.format("%s%s%s", env.getProperty("labx.producto.host"),
 					env.getProperty("labx.insumo.path"), env.getProperty("labx.insumo.findPath"))
-					.replace("{idProducto}", kardexDTO.getIdProducto());
+					.replace("{idProducto}", idProducto);
 			ProductoResponseDTO productoResponseDTO = clienteProductoService.doGet(url, 200, headers);
 
 			if (productoResponseDTO == null) {
-				response.setMessage("El producto con el ID " + kardexDTO.getIdProducto() + " no existe.");
+				response.setMessage("El producto con el ID " + idProducto + " no existe.");
 				response.setSuccess(false);
 				throw new Exception(response.getMessage());
 			}
 			return productoResponseDTO;
 		} catch (Exception e) {
-			if (e.getMessage().contains(kardexDTO.getIdProducto())) {
+			if (e.getMessage().contains(idProducto)) {
 				response.setMessage(e.getMessage());
 			} else {
 				response.setMessage("Ocurrió un error consultando producto, por favor intenté más tarde.");
@@ -149,7 +156,7 @@ public class KardexServiceImpl implements IKardexService {
 	public void salida(ResponseDTO<KardexResponseDTO> response, KardexDTO kardexDTO, Map<String, String> headers)
 			throws Exception {
 		KardexPK kardexPK = new KardexPK();
-		ProductoResponseDTO productoResponseDTO = obtenerInfoProducto(response, kardexDTO, headers);
+		ProductoResponseDTO productoResponseDTO = obtenerInfoProducto(response, kardexDTO.getIdProducto(), headers);
 
 		kardexPK.setUuidProducto(kardexDTO.getIdProducto());
 		kardexPK.setUuidBodega(kardexDTO.getIdBodega());

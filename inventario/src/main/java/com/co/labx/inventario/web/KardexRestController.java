@@ -28,9 +28,12 @@ public class KardexRestController {
 	private IKardexService kardexService;
 	
 	@GetMapping("/listar")
-	public ResponseEntity<List<Kardex>> obtener() {
+	public ResponseEntity<List<KardexResponseDTO>> obtener(@RequestHeader("id") String id, @RequestHeader("Authorization") String authorization) {
 		try {
-			List<Kardex> kardex = kardexService.listar();
+			Map<String, String> headers = new HashMap<String, String>();
+			headers.put("id", id);
+			headers.put("Authorization", authorization);
+			List<KardexResponseDTO> kardex = kardexService.listar(headers);
 			return ResponseEntity.status(HttpStatus.OK).body(kardex);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
