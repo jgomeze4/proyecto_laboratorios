@@ -173,14 +173,17 @@ public class KardexServiceImpl implements IKardexService {
 				response.setMessage("La cantidad para hacer la salida debe ser mayor a 0");
 				response.setSuccess(false);
 				throw new Exception(response.getMessage());
-			}
-			if (kardex.getCantidad().add(cantidadSalida).compareTo(BigDecimal.ZERO) < 0) {
+			} else if (kardex.getCantidad().compareTo(BigDecimal.ZERO) == 0) {
+				response.setMessage("No se puede hacer salida de inventario, el producto " + kardex.getId().getUuidProducto() + 
+															" del lote " + kardex.getId().getLote() + " no tiene ninguna cantidad.");
+				response.setSuccess(false);
+				throw new Exception(response.getMessage());
+			} else if (kardex.getCantidad().add(cantidadSalida).compareTo(BigDecimal.ZERO) < 0) {
 				response.setMessage(
 						"La cantidad asignada para la salida no debe ser superior a " + kardex.getCantidad());
 				response.setSuccess(false);
 				throw new Exception(response.getMessage());
-			}
-			if (kardex.getActivo().equals(KardexConstants.KARDEX_ESTADO_VENCIDO)
+			}else if (kardex.getActivo().equals(KardexConstants.KARDEX_ESTADO_VENCIDO)
 					&& kardex.getCantidad().add(cantidadSalida).compareTo(BigDecimal.ZERO) > 0) {
 				response.setMessage(
 						"No se puede hacer salida de inventario, el producto " + kardex.getId().getUuidProducto()
