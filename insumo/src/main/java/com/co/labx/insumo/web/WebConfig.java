@@ -57,14 +57,14 @@ public class WebConfig implements Filter, WebMvcConfigurer {
 		System.out.println("Request Method: " + request.getMethod());
 		boolean validate = validate(request);
 
-		if (!validate) {
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-		} else if (!(request.getMethod().equalsIgnoreCase("OPTIONS"))) {
+		if (validate && !(request.getMethod().equalsIgnoreCase("OPTIONS"))) {
 			try {
 				chain.doFilter(req, res);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		} else if (!validate) {
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		} else {
 			System.out.println("Pre-flight");
 			response.setHeader("Access-Control-Allow-Origin", "*");
