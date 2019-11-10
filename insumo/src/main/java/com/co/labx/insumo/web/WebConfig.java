@@ -55,15 +55,19 @@ public class WebConfig implements Filter, WebMvcConfigurer {
 		response.addHeader("Access-Control-Expose-Headers", "responseType");
 		response.addHeader("Access-Control-Expose-Headers", "id");
 		System.out.println("Request Method: " + request.getMethod());
-		boolean validate = validate(request);
 
 		if (!(request.getMethod().equalsIgnoreCase("OPTIONS"))) {
-			try {
-				chain.doFilter(req, res);
-			} catch (Exception e) {
-				e.printStackTrace();
+			if(!validate(request)) {
+				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			} else {
+				try {
+					chain.doFilter(req, res);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		} else {
+			System.out.println("Entra 2");
 			System.out.println("Pre-flight");
 			response.setHeader("Access-Control-Allow-Origin", "*");
 			response.setHeader("Access-Control-Allow-Methods", "POST,GET,DELETE,PUT");
@@ -71,11 +75,7 @@ public class WebConfig implements Filter, WebMvcConfigurer {
 			response.setHeader("Access-Control-Allow-Headers", "Access-Control-Expose-Headers"
 					+ "Authorization, content-type,"
 					+ "id,access-control-request-headers,access-control-request-method,accept,origin,authorization,x-requested-with,responseType");
-			/*if (!validate) {
-				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			} else {*/
-				response.setStatus(HttpServletResponse.SC_OK);
-			//}
+			response.setStatus(HttpServletResponse.SC_OK);
 		}
 	}
 
