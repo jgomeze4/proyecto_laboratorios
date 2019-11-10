@@ -63,8 +63,6 @@ public class WebConfig implements Filter, WebMvcConfigurer {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else if (!validate) {
-			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		} else {
 			System.out.println("Pre-flight");
 			response.setHeader("Access-Control-Allow-Origin", "*");
@@ -73,7 +71,11 @@ public class WebConfig implements Filter, WebMvcConfigurer {
 			response.setHeader("Access-Control-Allow-Headers", "Access-Control-Expose-Headers"
 					+ "Authorization, content-type,"
 					+ "id,access-control-request-headers,access-control-request-method,accept,origin,authorization,x-requested-with,responseType");
-			response.setStatus(HttpServletResponse.SC_OK);
+			if (!validate) {
+				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			} else {
+				response.setStatus(HttpServletResponse.SC_OK);
+			}
 		}
 	}
 
