@@ -35,9 +35,6 @@ public class WebConfig implements Filter, WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**");
-		/*
-		 * .allowedMethods("*") .allowedOrigins("*") .allowedHeaders("*");
-		 */
 	}
 
 	@Override
@@ -67,7 +64,6 @@ public class WebConfig implements Filter, WebMvcConfigurer {
 				}
 			}
 		} else {
-			System.out.println("Entra 2");
 			System.out.println("Pre-flight");
 			response.setHeader("Access-Control-Allow-Origin", "*");
 			response.setHeader("Access-Control-Allow-Methods", "POST,GET,DELETE,PUT");
@@ -92,7 +88,6 @@ public class WebConfig implements Filter, WebMvcConfigurer {
 			String responseValidation;
 			try {
 				responseValidation = clienteSecurityLabx.doPost(url, value, 200, null);
-				System.out.println("verifica " +responseValidation);
 				if (responseValidation != null && responseValidation.equals(token.replace("Bearer ", ""))) {
 					return true;
 				}
