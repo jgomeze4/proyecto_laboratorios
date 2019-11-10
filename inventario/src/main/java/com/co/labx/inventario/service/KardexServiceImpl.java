@@ -48,10 +48,11 @@ public class KardexServiceImpl implements IKardexService {
 
 	@Override
 	@Transactional
-	public void ingresar(ResponseDTO<KardexResponseDTO> response, KardexDTO kardexDTO, Map<String, String> headers) throws Exception {
+	public void ingresar(ResponseDTO<KardexResponseDTO> response, KardexDTO kardexDTO, Map<String, String> headers)
+			throws Exception {
 		KardexPK kardexPK = new KardexPK();
 		ProductoResponseDTO productoResponseDTO = obtenerInfoProducto(response, kardexDTO, headers);
-		
+
 		kardexPK.setUuidProducto(kardexDTO.getIdProducto());
 		kardexPK.setUuidBodega(kardexDTO.getIdBodega());
 		kardexPK.setLote(kardexDTO.getLote());
@@ -61,17 +62,18 @@ public class KardexServiceImpl implements IKardexService {
 		if (kardexResult.isPresent()) {
 			kardex = kardexResult.get();
 
-			if(kardexDTO.getCantidad().compareTo(BigDecimal.ZERO) < 1) {
+			if (kardexDTO.getCantidad().compareTo(BigDecimal.ZERO) < 1) {
 				response.setMessage("La cantidad para ingresar debe ser mayor a 0");
 				response.setSuccess(false);
 				throw new Exception(response.getMessage());
 			}
-			if(kardex.getActivo().equals(KardexConstants.KARDEX_ESTADO_VENCIDO)) {
-				response.setMessage("No se puede hacer ingreso de inventario, el producto " + kardex.getId() + " está vencido.");
+			if (kardex.getActivo().equals(KardexConstants.KARDEX_ESTADO_VENCIDO)) {
+				response.setMessage(
+						"No se puede hacer ingreso de inventario, el producto " + kardex.getId() + " está vencido.");
 				response.setSuccess(false);
 				throw new Exception(response.getMessage());
 			}
-			
+
 			kardex.setCantidadAnterior(kardex.getCantidad());
 			kardex.setCantidad(kardex.getCantidad().add(kardexDTO.getCantidad()));
 			kardex.setUuidUsuarioModificacion(kardexDTO.getIdUsuario());
@@ -99,15 +101,17 @@ public class KardexServiceImpl implements IKardexService {
 		mov.setTipoMovimiento(MovimientoKardexConstants.ENTRADA);
 
 		movimientoService.generarMovimiento(mov);
-		
+
 		response.setData(KardexHelper.parseKardexAKardexResponseDTO(productoResponseDTO, kardex));
 		response.setSuccess(true);
 	}
 
-	private ProductoResponseDTO obtenerInfoProducto(ResponseDTO<KardexResponseDTO> response, KardexDTO kardexDTO, Map<String, String> headers) throws Exception {
+	private ProductoResponseDTO obtenerInfoProducto(ResponseDTO<KardexResponseDTO> response, KardexDTO kardexDTO,
+			Map<String, String> headers) throws Exception {
 		try {
 			String url = String.format("%s%s%s", env.getProperty("labx.producto.host"),
-					env.getProperty("labx.insumo.path"), env.getProperty("labx.insumo.findPath")).replace("{idProducto}", kardexDTO.getIdProducto());
+					env.getProperty("labx.insumo.path"), env.getProperty("labx.insumo.findPath"))
+					.replace("{idProducto}", kardexDTO.getIdProducto());
 			ProductoResponseDTO productoResponseDTO = clienteProductoService.doGet(url, 200, headers);
 
 			if (productoResponseDTO == null) {
@@ -117,7 +121,7 @@ public class KardexServiceImpl implements IKardexService {
 			}
 			return productoResponseDTO;
 		} catch (Exception e) {
-			if(e.getMessage().contains(kardexDTO.getIdProducto())) {
+			if (e.getMessage().contains(kardexDTO.getIdProducto())) {
 				response.setMessage(e.getMessage());
 			} else {
 				response.setMessage("Ocurrió un error consultando producto, por favor intenté más tarde.");
@@ -131,14 +135,78 @@ public class KardexServiceImpl implements IKardexService {
 	@Transactional
 	public void validarKardexVencido() {
 		List<Kardex> kardex = kardexRepository.findByKardexVencimiento();
-		
+
 		for (Kardex k : kardex) {
 			k.setFehcaModificacion(Calendar.getInstance().getTime());
 			k.setActivo(KardexConstants.KARDEX_ESTADO_VENCIDO);
-			
+
 			kardexRepository.save(k);
 		}
-		
+
 	}
-	
+
+	@Override
+	public void salida(ResponseDTO<KardexResponseDTO> response, KardexDTO kardexDTO, Map<String, String> headers)
+			throws Exception {
+		KardexPK kardexPK = new KardexPK();
+		ProductoResponseDTO productoResponseDTO = obtenerInfoProducto(response, kardexDTO, headers);
+
+		kardexPK.setUuidProducto(kardexDTO.getIdProducto());
+		kardexPK.setUuidBodega(kardexDTO.getIdBodega());
+		kardexPK.setLote(kardexDTO.getLote());
+
+		Kardex kardex = new Kardex();
+		Optional<Kardex> kardexResult = kardexRepository.findById(kardexPK);
+		if (kardexResult.isPresent()) {
+			kardex = kardexResult.get();
+
+			BigDecimal cantidadSalida = kardexDTO.getCantidad().multiply(new BigDecimal(-1));
+
+			if (kardexDTO.getCantidad().compareTo(BigDecimal.ZERO) < 1) {
+				response.setMessage("La cantidad para hacer la salida debe ser mayor a 0");
+				response.setSuccess(false);
+				throw new Exception(response.getMessage());
+			}
+			if (kardex.getCantidad().add(cantidadSalida).compareTo(BigDecimal.ZERO) < 0) {
+				response.setMessage(
+						"La cantidad asignada para la salida no debe ser superior a " + kardex.getCantidad());
+				response.setSuccess(false);
+				throw new Exception(response.getMessage());
+			}
+			if (kardex.getActivo().equals(KardexConstants.KARDEX_ESTADO_VENCIDO)
+					&& kardex.getCantidad().add(cantidadSalida).compareTo(BigDecimal.ZERO) > 0) {
+				response.setMessage(
+						"No se puede hacer salida de inventario, el producto " + kardex.getId().getUuidProducto()
+								+ " del lote " + kardex.getId().getLote() + " está vencido, se debe hacer una salida total.");
+				response.setSuccess(false);
+				throw new Exception(response.getMessage());
+			}
+
+			kardex.setCantidadAnterior(kardex.getCantidad());
+			kardex.setCantidad(kardex.getCantidad().add(cantidadSalida));
+			kardex.setUuidUsuarioModificacion(kardexDTO.getIdUsuario());
+			kardex.setFehcaModificacion(Calendar.getInstance().getTime());
+		} else {
+			response.setMessage("No se puede hacer salida para el producto " + kardexDTO.getIdProducto()
+					+ " que tiene lote " + kardexDTO.getLote() + " no se encuentra registrado.");
+			response.setSuccess(false);
+			throw new Exception(response.getMessage());
+		}
+
+		kardex = kardexRepository.save(kardex);
+
+		MovimientoKardexDTO mov = new MovimientoKardexDTO();
+
+		mov.setCantidad(kardexDTO.getCantidad());
+		mov.setIdUsuario(kardexDTO.getIdUsuario());
+		mov.setKardexDTO(kardexDTO);
+		mov.setFecha(Calendar.getInstance().getTime());
+		mov.setTipoMovimiento(MovimientoKardexConstants.SALIDA);
+
+		movimientoService.generarMovimiento(mov);
+
+		response.setData(KardexHelper.parseKardexAKardexResponseDTO(productoResponseDTO, kardex));
+		response.setSuccess(true);
+	}
+
 }

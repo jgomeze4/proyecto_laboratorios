@@ -48,7 +48,25 @@ public class KardexRestController {
 			kardexService.ingresar(responseDTO, kardexDTO, headers);
 			return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
 		} catch (Exception e) {
-			System.out.print(e.getMessage());
+			if(responseDTO.getMessage() == null || responseDTO.getMessage().isEmpty()) {
+				responseDTO.setMessage("Ocurrió un error, por favor intenté más tarde");
+			}
+			responseDTO.setSuccess(false);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseDTO);
+		}
+	}
+	
+	@PostMapping("/salida")
+	public ResponseEntity<ResponseDTO<KardexResponseDTO>> salida(@RequestHeader("id") String id, @RequestHeader("Authorization") String authorization, @RequestBody KardexDTO kardexDTO) {
+		ResponseDTO<KardexResponseDTO> responseDTO = new ResponseDTO<>();
+		try {
+			Map<String, String> headers = new HashMap<String, String>();
+			headers.put("id", id);
+			headers.put("Authorization", authorization);
+			kardexDTO.setIdUsuario(id);
+			kardexService.salida(responseDTO, kardexDTO, headers);
+			return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
+		} catch (Exception e) {
 			if(responseDTO.getMessage() == null || responseDTO.getMessage().isEmpty()) {
 				responseDTO.setMessage("Ocurrió un error, por favor intenté más tarde");
 			}

@@ -14,6 +14,8 @@ public interface IKardexService {
 	
 	void ingresar(ResponseDTO<KardexResponseDTO> response, KardexDTO kardexDTO, Map<String, String> headers) throws Exception;
 	
+	void salida(ResponseDTO<KardexResponseDTO> response, KardexDTO kardexDTO, Map<String, String> headers) throws Exception;
+	
 	void validarKardexVencido();
 	
 }
