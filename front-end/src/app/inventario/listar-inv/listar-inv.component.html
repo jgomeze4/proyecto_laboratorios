@@ -1,1 +1,39 @@
-<p>listar-inv works!</p>
+<mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+</mat-form-field>
+<div style="overflow: auto;">
+<div class="mat-elevation-z8">
+    <mat-table [dataSource]="listData" matSort>
+        <mat-header-row *matHeaderRowDef ="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns:displayedColumns;"></mat-row>
+        <ng-container matColumnDef="producto.nombre">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</mat-header-cell>
+                <mat-header-cell *matCellDef="let element">{{element.producto.nombre}}</mat-header-cell>
+        </ng-container>
+        <ng-container matColumnDef="producto.familia.nombre">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Familia</mat-header-cell>
+                <mat-header-cell *matCellDef="let element">{{element.producto.familia.nombre}}</mat-header-cell>
+        </ng-container>
+        <ng-container matColumnDef="bodega">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Bodega</mat-header-cell>
+                <mat-header-cell *matCellDef="let element">{{element.bodega}}</mat-header-cell>
+        </ng-container>
+        <ng-container matColumnDef="lote">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Lote</mat-header-cell>
+                <mat-header-cell *matCellDef="let element">{{element.lote}}</mat-header-cell>
+        </ng-container>
+        <ng-container matColumnDef="cantidad">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</mat-header-cell>
+                <mat-header-cell *matCellDef="let element">{{element.cantidad}}</mat-header-cell>
+        </ng-container>
+        <ng-container matColumnDef="cantidadAnterior">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad Anterior</mat-header-cell>
+                <mat-header-cell *matCellDef="let element">{{element.cantidadAnterior}}</mat-header-cell>
+        </ng-container>
+        <ng-container matColumnDef="fechaVencimiento">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Vencimiento</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.fechaVencimiento}}</mat-header-cell>
+            </ng-container>
+    </mat-table>
+</div>
+</div>

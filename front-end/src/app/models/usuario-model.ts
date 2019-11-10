@@ -1,10 +1,7 @@
 export class Usuario{
-    ID_USUARIO:number;
-    Nombre:string;
-    Contrasena:string;
-    Token:string;
-    Email:string;
-    Cliente:string;
-    ID_ROL:number;
-    Activo:boolean;
+    id:string;
+    email:string;
+    nombre:string;
+    cliente:number;
+    token:boolean;
 }

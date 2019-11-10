@@ -7,9 +7,40 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">PRODUCTO</span>
                 </div>
-                <input required type="number" class="form-control" name="idProducto" #idProducto ="ngModel" [(ngModel)]="service.formData.idProducto">    
+                <select required type="select" class="form-control" name="idProducto"  #idProducto ="ngModel" [(ngModel)]="service.formData.idProducto">
+                    <option *ngFor="let dl of listItems" [value]="dl.idProducto">{{dl.nombre}}</option>
+                </select>  
             </div>
             <div class="text-danger text-left" *ngIf="idProducto.invalid && idProducto.touched">Por favor ingresar el Producto</div>
+            <div class="mt-4 input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">BODEGA</span>
+                </div>
+                <input required type="text" class="form-control" readonly name="idBodega" #idBodega ="ngModel" [(ngModel)]="service.formData.idBodega" value="Bodega 1">
+            </div>
+            <div class="mt-4 input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">LOTE</span>
+                    </div>
+                    <input required type="text" class="form-control" name="lote" #lote ="ngModel" [(ngModel)]="service.formData.lote">
+            </div>
+            <div class="text-danger text-left" *ngIf="lote.invalid && lote.touched">Por favor ingresar el Lote</div>
+            <div class="mt-4 input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">CANTIDAD</span>
+                    </div>
+                    <input required type="number" class="form-control" name="cantidad" #cantidad ="ngModel" [(ngModel)]="service.formData.cantidad" min="1">
+            </div>
+            <div class="text-danger text-left" *ngIf="cantidad.invalid && cantidad.touched">Por favor ingresar la Cantidad</div>
+            <div class="mt-4 input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">VENCIMIENTO</span>
+                </div>
+                <input required  [matDatepicker]="picker" (focus)="picker.open()" type="text" class="form-control" name="fechaVencimiento" #fechaVencimiento ="ngModel" [(ngModel)]="service.formData.fechaVencimiento">
+                <mat-datepicker-toggle matSuffix [for] ="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker> 
+            </div>
+            <div class="text-danger text-left" *ngIf="fechaVencimiento.invalid && fechaVencimiento.touched">Por favor ingresar la Fecha de Vencimiento</div>
             <button class="mt-4" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">AÑADIR</button>
         </form>
     </div>

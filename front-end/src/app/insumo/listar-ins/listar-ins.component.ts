@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild,AfterViewInit } from '@angular/core';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { Insumo}  from "src/app/models/insumo-model";
 import { InsumoService } from 'src/app/services/insumo.service';
 
-import {MatDialog,MatDialogConfig} from  '@angular/material';
+import {MatDialog,MatDialogConfig,MatSnackBar} from  '@angular/material';
 import {AgregarInsComponent} from 'src/app/insumo/agregar-ins/agregar-ins.component';
 
 @Component({
@@ -11,25 +11,30 @@ import {AgregarInsComponent} from 'src/app/insumo/agregar-ins/agregar-ins.compon
   templateUrl: './listar-ins.component.html',
   styleUrls: ['./listar-ins.component.css']
 })
-export class ListarInsComponent implements OnInit {
+export class ListarInsComponent implements OnInit, AfterViewInit {
 
-  constructor(private service: InsumoService, private dialog:MatDialog) {
+  constructor(private service: InsumoService, private dialog:MatDialog, public snackBar:MatSnackBar) {
     this.service.listen().subscribe((m:any)=>{
       this.refreshInsList();
     })
    }
   listData:MatTableDataSource<any>;
-  displayedColumns: string[] = ['Options','idProducto','nombre','marca','proveedor','codigo','presentacion','regInvima','clasificacionRiesgo','tempAlmacenamiento','activo', 'familia.nombre']
+  displayedColumns: string[] = ['nombre','marca','proveedor','codigo','presentacion','regInvima','clasificacionRiesgo', 'familia.nombre']
+  errorMsg:string ="";
   @ViewChild(MatSort,null) sort:MatSort;
   ngOnInit() {
+    
+  }
+  ngAfterViewInit(){
     this.refreshInsList();
   }
   refreshInsList(){
-    //var dummyData =[{ID_PRODUCTO:1,ID_FAMILIA:1,Nombre:"prueba",Marca:"prueba",Proveedor:"prueba",Codigo:"prueba",Presentacion:"Prueba",RegINVIMA:"prueba",ClasificacionRiesgo:"prueba",TipoAlmacenamiento:"prueba",ID_USUARIO:1,Activo:1},{ID_PRODUCTO:2,ID_FAMILIA:1,Nombre:"abc",Marca:"abc",Proveedor:"abc",Codigo:"abc",Presentacion:"abc",RegINVIMA:"abc",ClasificacionRiesgo:"abc",TipoAlmacenamiento:"abc",ID_USUARIO:1,Activo:1}]
-    //this.listData = new MatTableDataSource(dummyData);
     this.service.getInsumoList().subscribe(data =>{
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
+    },error =>{
+      this.errorMsg = error["error"]["message"];
+      this.snackBar.open(this.errorMsg,'',{duration:4000, verticalPosition:'bottom'});
     });  
   }
   onEdit(insumo:Insumo){

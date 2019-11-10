@@ -6,18 +6,6 @@
         <mat-table [dataSource]="listData" matSort>
             <mat-header-row *matHeaderRowDef ="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns:displayedColumns;"></mat-row>
-            <ng-container matColumnDef="Options">
-                <mat-header-cell *matHeaderCellDef>Opciones</mat-header-cell>
-                <mat-cell *matCellDef="let row">
-                    <button mat-icon-button (click)="onEdit(row)">
-                        <mat-icon>launch</mat-icon>
-                    </button>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="idProducto">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
-                <mat-header-cell *matCellDef="let element">{{element.idProducto}}</mat-header-cell>
-            </ng-container>
             <ng-container matColumnDef="nombre">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</mat-header-cell>
                     <mat-header-cell *matCellDef="let element">{{element.nombre}}</mat-header-cell>
@@ -45,14 +33,6 @@
             <ng-container matColumnDef="clasificacionRiesgo">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Riesgo</mat-header-cell>
                     <mat-header-cell *matCellDef="let element">{{element.clasificacionRiesgo}}</mat-header-cell>
-            </ng-container>
-            <ng-container matColumnDef="tempAlmacenamiento">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Almacenamiento</mat-header-cell>
-                    <mat-header-cell *matCellDef="let element">{{element.tempAlmacenamiento}}</mat-header-cell>
-            </ng-container>
-            <ng-container matColumnDef="activo">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Activo</mat-header-cell>
-                    <mat-header-cell *matCellDef="let element">{{element.activo}}</mat-header-cell>
             </ng-container>
             <ng-container matColumnDef="familia.nombre">
                         <mat-header-cell *matHeaderCellDef mat-sort-header>Familia</mat-header-cell>

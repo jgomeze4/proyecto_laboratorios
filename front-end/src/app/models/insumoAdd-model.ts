@@ -1,14 +1,12 @@
 export class InsumoAdd{
-    idProducto:number;
+    idProducto:string;
     nombre:string;
     marca:string;
     proveedor:string;
     codigo:string;
     presentacion:string;
     regInvima:string;
-    idUsuario:string;
-    clasificacionRiesgo:string;
     tempAlmacenamiento:string;
-    activo:string;
-    idFamilia:number;
+    clasificacionRiesgo:string;
+    idFamilia:string;
 }

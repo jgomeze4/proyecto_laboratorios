@@ -6,11 +6,11 @@ import {InsumoService} from 'src/app/services/insumo.service';
 import {MatSnackBar} from '@angular/material';
 
 @Component({
-  selector: 'app-agregar-inv',
-  templateUrl: './agregar-inv.component.html',
-  styleUrls: ['./agregar-inv.component.css']
+  selector: 'app-salida-inv',
+  templateUrl: './salida-inv.component.html',
+  styleUrls: ['./salida-inv.component.css']
 })
-export class AgregarInvComponent implements OnInit {
+export class SalidaInvComponent implements OnInit {
 
   constructor(public service:InventarioService,public serviceInsumo:InsumoService,private snackBar:MatSnackBar) { }
   public listItems:Array<Insumo>=[];
@@ -23,12 +23,11 @@ export class AgregarInvComponent implements OnInit {
   resetForm(form?:NgForm){
     if(form != null)
     form.resetForm();
-    this.service.formData ={
+    this.service.uformData ={
       idProducto:null,
       idBodega:'1',
       lote:'',
       cantidad:1,
-      fechaVencimiento:null,
     }
   }
   dropdownRefresh(){
@@ -39,12 +38,13 @@ export class AgregarInvComponent implements OnInit {
     });
   }
   onSubmit(form:NgForm){
-    this.service.addInventario(form.value).subscribe(res =>{
+    this.service.updateInventario(form.value).subscribe(res =>{
       this.resetForm();
-      this.snackBar.open('Inventario Añadido Exitosamente','',{duration:4000, verticalPosition:'bottom'});
+      this.snackBar.open('Inventario Actualizado Exitosamente','',{duration:4000, verticalPosition:'bottom'});
     }, error =>{
       this.errorMsg = error["error"]["message"];
       this.snackBar.open(this.errorMsg,'',{duration:4000, verticalPosition:'bottom'});
     })
   }
+
 }

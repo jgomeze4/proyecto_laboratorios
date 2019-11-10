@@ -1,0 +1,38 @@
+<div class="d-flex justify-content-between">
+    <h3>Salida del Inventario</h3>
+</div>
+<div style="overflow: auto;">
+    <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+        <div class="mt-4 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">PRODUCTO</span>
+            </div>
+            <select required type="select" class="form-control" name="idProducto"  #idProducto ="ngModel" [(ngModel)]="service.uformData.idProducto">
+                <option *ngFor="let dl of listItems" [value]="dl.idProducto">{{dl.nombre}}</option>
+            </select>  
+        </div>
+        <div class="text-danger text-left" *ngIf="idProducto.invalid && idProducto.touched">Por favor ingresar el Producto</div>
+        <div class="mt-4 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">BODEGA</span>
+            </div>
+            <input required type="text" class="form-control" readonly name="idBodega" #idBodega ="ngModel" [(ngModel)]="service.uformData.idBodega" value="Bodega 1">
+        </div>
+        <div class="mt-4 input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">LOTE</span>
+                </div>
+                <input required type="text" class="form-control" name="lote" #lote ="ngModel" [(ngModel)]="service.uformData.lote">
+        </div>
+        <div class="text-danger text-left" *ngIf="lote.invalid && lote.touched">Por favor ingresar el Lote</div>
+        <div class="mt-4 input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">CANTIDAD A SACAR</span>
+                </div>
+                <input required type="number" class="form-control" name="cantidad" #cantidad ="ngModel" [(ngModel)]="service.uformData.cantidad" min="0">
+        </div>
+        <div class="text-danger text-left" *ngIf="cantidad.invalid && cantidad.touched">Por favor ingresar la Cantidad</div>
+        <button class="mt-4" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">SACAR</button>
+    </form>
+</div>
+

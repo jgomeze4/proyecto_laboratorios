@@ -1,7 +1,6 @@
-export class Inventario{
+export class InventarioUpdate{
     idProducto:string;
     idBodega:string;
     lote:string;
     cantidad:number;
-    fechaVencimiento:string;
 }
