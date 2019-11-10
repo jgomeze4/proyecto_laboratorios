@@ -57,7 +57,7 @@ public class WebConfig implements Filter, WebMvcConfigurer {
 		System.out.println("Request Method: " + request.getMethod());
 		boolean validate = validate(request);
 
-		if (validate && !(request.getMethod().equalsIgnoreCase("OPTIONS"))) {
+		if (!(request.getMethod().equalsIgnoreCase("OPTIONS"))) {
 			try {
 				chain.doFilter(req, res);
 			} catch (Exception e) {
@@ -71,11 +71,11 @@ public class WebConfig implements Filter, WebMvcConfigurer {
 			response.setHeader("Access-Control-Allow-Headers", "Access-Control-Expose-Headers"
 					+ "Authorization, content-type,"
 					+ "id,access-control-request-headers,access-control-request-method,accept,origin,authorization,x-requested-with,responseType");
-			if (!validate) {
+			/*if (!validate) {
 				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			} else {
+			} else {*/
 				response.setStatus(HttpServletResponse.SC_OK);
-			}
+			//}
 		}
 	}
 
