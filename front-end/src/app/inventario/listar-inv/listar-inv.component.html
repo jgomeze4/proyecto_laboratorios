@@ -32,7 +32,7 @@
         </ng-container>
         <ng-container matColumnDef="fechaVencimiento">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Vencimiento</mat-header-cell>
-                    <mat-header-cell *matCellDef="let element">{{element.fechaVencimiento}}</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.fechaVencimiento | date}}</mat-header-cell>
             </ng-container>
     </mat-table>
 </div>
